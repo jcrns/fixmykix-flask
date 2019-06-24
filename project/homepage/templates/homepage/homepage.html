@@ -1,0 +1,37 @@
+{% extends "header.html" %}
+{% block content %} 
+	<div class="container-fluid">
+		<style type="text/css">
+			p {
+				font-size: 22px;
+			}
+		</style>
+		<h1>HOME</h1>
+		<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+			<h2>WHAT IS FIXMYKIX?</h2>
+			<center>
+				<img src="{{ url_for('homepage.static', filename = 'img/logo2.jpg') }}" rel="stylesheet">
+			</center>
+			<br>
+			<p>
+				Fixmykix raises awareness of and provides a mobile marketplace app for the services of Shoe Restoration and Shoe Art, to promote artistic entrepreneurship and environmental sustainability. Fixmykix understands that the services of shoe restoration are very valuable in the shoe industry and our service providers need a space for them to sell their services. Fixmykix also recognizes how harmful fast fashion is to the environment, were attempting to reduce the amount of shoes that end up in landfills by promoting shoe restoration and offering a space to practice offering these services.
+			</p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+			<h2>WHAT IS SHOE RESTORATION?</h2>
+			<br>
+			<img class="img-fluid" src="{{ url_for('homepage.static', filename = 'img/shoecleaningphoto1.jpg') }}" rel="stylesheet">
+			<p>
+				Shoe Restoration is the process of taking a pair shoes that have been worn down, beat up, and would traditionally be thrown out, and taking that pair of shoes through a process of rehabilitation were the final outcome will be restoring that shoe’s integrity back into a fresh wearable shoe that is ready to be rocked once again.
+			</p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+			<h2>WHAT IS SHOE ART?</h2>
+			<br>
+			<img class="img-fluid" src="{{ url_for('homepage.static', filename = 'img/shoecleaningphoto2.jpg') }}" rel="stylesheet">
+			<p>
+				Shoe Art is the process of taking a pair of shoes that already exists and redesigning it with your own personal creative touch and making it your own one of a kind masterpiece you can wear on your feet.
+			</p>
+		</div>
+	</div>
+{% endblock %}

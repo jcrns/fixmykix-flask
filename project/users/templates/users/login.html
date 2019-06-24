@@ -1,0 +1,26 @@
+{% extends "header.html" %}
+{% block content %} 
+	<div class="container login-form">
+		<form method="POST">
+			<!-- Token block needed for added security -->
+        	{{ form.hidden_tag() }}
+	        <fieldset class="form-group">
+	            <legend class="border-bottom mb-4">Login</legend>
+	            <div class="form-group">
+	                {{ form.email.label(class="form-control-label") }}
+	                {{ form.email(class="form-control form-control-lg") }}           
+	            </div>
+	            <div class="form-group">
+	                {{ form.password.label(class="form-control-label") }}
+	                {{ form.password (class="form-control form-control-lg") }}             
+	            </div>
+	        </fieldset>
+	        <div class="form-group">
+	            {{ form.submit(class="btn btn-secondary") }}    
+	        </div>
+		</form>
+		<small>
+        	<a href="{{ url_for('users.signupConsumer') }}">Don't have an account? Sign Up!</a>
+    	</small>
+	</div>
+{% endblock %}
