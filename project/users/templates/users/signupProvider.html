@@ -75,6 +75,32 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    {{ form.city.label(class="form-control-label") }}
+                    {%  if form.city.errors %}
+                        {{ form.city(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback ">
+                            {% for error in form.city.errors %}
+                                <span>{{  error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                            {{ form.city(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.zip_code.label(class="form-control-label") }}
+                    {%  if form.zip_code.errors %}
+                        {{ form.zip_code(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback ">
+                            {% for error in form.zip_code.errors %}
+                                <span>{{  error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                            {{ form.zip_code(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
                     {{ form.business_name.label(class="form-control-label") }}
                     {%  if form.business_name.errors %}
                         {{ form.business_name(class="form-control form-control-lg is-invalid") }}

@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>FixMyKix – Where the Kicks get Fixed.</title>
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>FixMyKix – Where the Kicks get Fixed.</title>
+    {% endif %}
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="crossorigin="anonymous"></script>
@@ -27,21 +31,30 @@
             <span class="navbar-toggler-icon bg-dark"></span>
         </button>
         <a href="{{ url_for('homepage.home') }}#" class="navbar-brand nav-link-header"><img id="logo-header" src="{{ url_for('homepage.static', filename = 'img/logo.jpg') }}"></a>
+        {% if session['account'] %}
+        <a href="{{ url_for('profile.home', username=session['account']['username']) }}"><span class="font-weight-bold" style="color: #212121">{{ session['account']['username'] }}</span></a>
+        {% endif %}
         <a href=""><span class="font-weight-bold" style="color: #212121"></span></a>
         <div class="collapse navbar-collapse" id="collapse_target">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                	<a id="explore-button" class="nav-link nav-link-header" href="{{ url_for('homepage.home') }}#explore">Explore</a>
+                	<a id="explore-button" class="nav-link nav-link-header" href="{{ url_for('explore.home') }}">Explore</a>
                 </li>
                 <li class="nav-item">
                 	<a id="about-button" class="nav-link nav-link-header" href="{{ url_for('homepage.home') }}#about">About</a>
                 </li>
-                <li class="nav-item">
-                	<a id="login-button" class="nav-link nav-link-header" href="{{ url_for('users.login') }}">Login</a>
-                </li>
-                <li>
-                	<a id="register-button" class="nav-link nav-link-header font-weight-bold" href="{{ url_for('users.signupConsumer') }}">Sign Up</a>
-                </li>
+                {% if session['account'] %}
+	                <li>
+	                	<a id="logout-button" class="nav-link nav-link-header" href="{{ url_for('users.logout') }}">Logout</a>
+	                </li>
+	            {% else %}
+	                <li class="nav-item">
+	                	<a id="login-button" class="nav-link nav-link-header" href="{{ url_for('users.login') }}">Login</a>
+	                </li>
+	                <li>
+	                	<a id="register-button" class="nav-link nav-link-header font-weight-bold" href="{{ url_for('users.signupConsumer') }}">Sign Up</a>
+	                </li>
+	            {% endif %}
             </ul>
         </div>
     </nav>

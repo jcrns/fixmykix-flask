@@ -4,11 +4,17 @@ from flask import Flask, render_template, session, flash, redirect, url_for, ses
 # Importing os to encode session variable
 import os
 
-# Importing Views
+# Importing homepage
 from project.homepage.views import homepage
 
-# Importing Users
+# Importing users
 from project.users.views import users
+
+# Importing profile
+from project.profile.views import profile
+
+# Importing explore
+from project.explore.views import explore
 
 # Importing ssl
 import ssl
@@ -25,6 +31,10 @@ app = Flask(__name__)
 app.register_blueprint(homepage)
 
 app.register_blueprint(users)
+
+app.register_blueprint(profile)
+
+app.register_blueprint(explore)
 
 
 # Config

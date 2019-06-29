@@ -1,0 +1,178 @@
+{% extends "header.html" %}
+{% block content %}
+	<style type="text/css">
+	html,body
+	{
+	    width: 100%;
+	    height: 100%;
+	    margin: 0px;
+	    padding: 0px;
+	    overflow-x: hidden; 
+	}
+	</style>
+	{% if viewing == False %}
+		{% if session['account']['provider']['is_provider'] == True %}
+			{% if session['account']['setup_complete'] == False %}
+				<div class="container-fluid">
+					<h6>Provider Create Profile</h6>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+							<div class="card rounded-0" style="min-height: 35vh;"> 
+								<h5><b>BACKGROUND INFO</b></h5>
+								<textarea class="form-control" cols="20" rows="10" id="background-info"></textarea>
+							</div>
+							<br>
+							<div class="card rounded-0" style="min-height: 40vh">
+								<h5><b>WHAT SERVICES DO YOU PROVIDE</b></h5>
+								<p><input type="checkbox" name="clean-shoes" value="">I Clean Shoes</p>
+								<p><input type="checkbox" name="shoe-artist" value="">I'm a Shoe Artist</p>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+							<div class="card rounded-0" style="min-height: 60vh;">
+								<h5><b>WRITE A BIO ABOUT YOURSELF/ BRAND.</b></h5>
+								<textarea class="form-control" cols="20" rows="20" id="write-about-brand"></textarea>
+							</div>
+							<br>
+							<div class="card rounded-0">
+								<button class="btn btn-dark">SAVE & SETUP MY SHOP</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<style type="text/css">
+					.profile-sidebar span {
+						margin-left: 10px;
+						font-size: 20px;
+					}
+				</style>
+				<div class="container-fluid">
+					<h6>{{ session['account']['email'] }}</h6>
+					<div class="row">
+						<div class="col-12">
+							<div class="card rounded-0" style="min-height: 20vh">
+								<div class="row">
+									<div class="card" style="margin-left: 15px ;width: 180px; height: 180px;">
+										image
+									</div>
+									<div style="margin-left: 25px;">
+										<p>@{{ session['account']['username'] }}</p>
+										<p>Made {{ session['account']['number_of_transactions'] }} Transactions</p>
+										<p>{{ session['account']['rating'] }} star rating</p>
+										<p>{{ session['account']['city'] }}</p>
+									</div>
+									<div class="text-right">
+										<button class="">Edit Profile</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+							<div class="card" style="min-height: 55vh; background-color: #F5F5F5">
+								<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Messages</a></span></p>
+								<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Transactions</a></span></p>
+								<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Settings</a></span></p>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
+							
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+							<div class="card" style="min-height: 55vh; background-color: #F5F5F5">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% else %}
+			<style type="text/css">
+				.profile-sidebar span {
+					margin-left: 10px;
+					font-size: 20px;
+				}
+			</style>
+			<div class="container-fluid">
+				<h6>{{ session['account']['email'] }}</h6>
+				<div class="row">
+					<div class="col-12">
+						<div class="card rounded-0" style="min-height: 20vh">
+							<div class="row">
+								<div class="card" style="margin-left: 15px ;width: 180px; height: 180px;">
+									image
+								</div>
+								<div style="margin-left: 25px;">
+									<p>@{{ session['account']['username'] }}</p>
+									<p>Made {{ session['account']['number_of_transactions'] }} Transactions</p>
+									<p>{{ session['account']['rating'] }} star rating</p>
+									<p>{{ session['account']['city'] }}</p>
+								</div>
+								<div class="text-right">
+									<button class="">Edit Profile</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+						<div class="card" style="min-height: 55vh; background-color: #F5F5F5">
+							<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Messages</a></span></p>
+							<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Transactions</a></span></p>
+							<p style="background-color: #fff" class="profile-sidebar"><span><a href="#">Settings</a></span></p>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1">
+						
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+						<div class="card" style="min-height: 55vh; background-color: #F5F5F5">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% else %}
+		<style type="text/css">
+			.profile-sidebar span {
+				margin-left: 10px;
+				font-size: 20px;
+			}
+		</style>
+		<div class="container-fluid">
+			<h6>{{ email }}</h6>
+			<div class="row">
+				<div class="col-2">
+					<div class="card" style="margin-left: 15px ;width: 180px; height: 180px;">
+						image
+					</div>
+				</div>
+				<div class="col-10">
+					<div class="card rounded-0" style="min-height: 20vh">
+						<div class="row">
+							<div style="margin-left: 25px;">
+								<p>@{{ username }}</p>
+								<p>Made {{ number_of_transactions }} Transactions</p>
+								<p>{{ city }}</p>
+							</div>
+							<div class="text-right">
+								<p>{{ rating }} star rating</p>
+								<button>Message</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<h1 class="text-right">No Items</h1>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
