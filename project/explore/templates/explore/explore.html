@@ -7,59 +7,142 @@
 		}
 	}
 	</style>
-	<h2>New Post</h2>
-	<h2>Top Artist</h2>
-	<h2>New Artist</h2>
-	<h2>Shoe Cleaners</h2>
-	{% if session['account'] %}
-		<meta id="username" data-name="{{ session['account']['username'] }}">
-		<button class="btn btn-primary " id="new-post-button" data-toggle="modal" data-target="#new-post-modal">New Post</button>
-		<!-- Connect Website  -->
-	    <div class="modal fade" id="new-post-modal" tabindex="-1" role="dialog">
-	      <div class="modal-dialog" role="document">
-	        <div class="modal-content">
-	          <div class="modal-header">
-	            <h5 class="modal-title">New Post</h5>
-	            <button type="button" id="dismiss-new-post-modal" class="close" data-dismiss="modal" aria-label="Close">
-	              <span aria-hidden="true">&times;</span>
-	            </button>
-	          </div>
-	          <div class="modal-body">
-	        	  <h6>Service:</h6>
-	        	  <select id="new-post-service-select" onchange="newPost()">
-	        	  	<option value="design-shoes" selected="true">Design Shoes</option>
-	        	  	<option value="clean-shoes">Clean Shoes</option>
-	        	  </select>
-	        	  <div id="design-shoes-selected">
-		        	  <p><input type="text" name="new-post-shoe" id="new-post-shoe" placeholder="Shoe Ex: Jordan 11s" style="min-width: 300px;" ></p>
-		        	  <p><textarea cols="30" rows="10" id="new-post-description" placeholder="Description Ex: New color way, new design, etc."></textarea></p>
-		        	  <p>$ <input type="text" name="new-post-design-shoes-cost" id="new-post-design-shoes-cost" placeholder="Cost"></p>
-		        	  <p>
-		        	  	<select id="new-post-time-design-shoes-select">
-		        			<option value="none" selected="true" disabled>Select Time Needed</option>
-		        			<option value="3-days">3 Days</option>
-		        			<option value="5-days">5 Days</option>
-		        			<option value="7-days">7 Days</option>
-		        			<option value="10-days">10 Days</option>
-		        	  	</select>
-		        	  </p>
-	        	  </div>
-	        	  <div id="clean-shoes-selected" style="display: none;">
-		        	  <p>$ <input type="text" name="new-post-clean-shoes-cost" id="new-post-clean-shoes-cost" placeholder="Cost"></p>
-	        	  	  <select id="new-post-time-clean-shoes-select">
-	        			<option value="none" selected="true" disabled>Select Time Needed</option>
-	        			<option value="3-days">3 Days</option>
-	        			<option value="5-days">5 Days</option>
-	        			<option value="7-days">7 Days</option>
-	        		  	<option value="10-days">10 Days</option>
-	        	  	  </select>
-	        	  </div>
-	        	  <p><input type="submit" class="btn btn-primary" id="new-post-submit-button" value="Post!"></p>
-				  <p id="error-message" class="text-danger"></p>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	    <script type="text/javascript" src="{{ url_for('explore.static', filename='js/explore_in_session.js') }}"></script>
-	{% endif %}
+	<div class="container-fluid">
+
+		<!-- New Post Section -->
+		<h2>New Post</h2>
+		<div class="row" style="padding-left: 20px;">
+			{% for post in final_new_post %}
+				{% if post.shoe_artist == 'true' %}
+					<div class="card" style="padding: 20px; min-width: 200px">
+						<p><span style="font-size: 20px;">{{ post.shoe_name }}</span><span style="padding-left: 10px;"><a href="profile/{{ post.username }}" style="color: #000;">{{ post.username }}</a></span></p>
+						<h6>${{ post.cost }}</h6>
+						<p>{{ post.shoe_description }}</p>
+						<small>{{ post.selectedTime }}</small>
+						{% if not session['account'] %}
+							<button class="btn btn-outline-primary">Get Now</button>
+						{% endif %}
+					</div>
+				{% endif %}
+				{% if post.clean_shoes == 'true' %}
+					<div class="card" style="padding: 20px; min-width: 200px">
+						<p>Shoe Cleaning</p>
+						<h6>${{ post.cost }}</h6>
+						<p>{{ post.selectedTime }}</p>
+						<b><a href="/profile/{{ post.username }}" style="color: #000;">{{ post.username }}</a></b>
+						{% if not session['account'] %}
+							<button class="btn btn-outline-primary">Get Now</button>
+						{% endif %}
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		<hr>
+
+		<!-- Top Artist Section -->
+		<h2>Top Artist</h2>
+		<div class="row" style="padding-left: 20px;">
+			{% for user in final_top_provider %}
+				<div class="card" style="padding: 20px;min-width: 300px;">
+						<h4><a href="/profile/{{ user.account.username }}" style="color: #000;">{{ user.account.username }}</a></h4>
+						<small>{{ user.rating }}</small>
+						<p>{{ user.account.description }}</p>
+						<b>{{ user.account.city }}</b>
+						<small>{{ user.account.email }}</small>
+				</div>
+			{% endfor %}
+		</div>
+		<hr>
+
+		<!-- New Artist Section -->
+		<h2>New Artist</h2>
+		<div class="row" style="padding-left: 20px;">
+			{% for user in final_recent_provider %}
+				<div class="card" style="padding: 20px;" style="min-width: 300px;">
+						<h4><a href="/profile/{{ user.account.username }}" style="color: #000;">{{ user.account.username }}</a></h4>
+						<small>{{ user.rating }}</small>
+						<p>{{ user.account.description }}</p>
+						<b>{{ user.account.city }}</b>
+						<small>{{ user.account.email }}</small>
+				</div>
+			{% endfor %}
+		</div>
+		<hr>
+
+		<!-- Shoe Cleaner Section -->
+		<h2>Shoe Cleaners</h2>
+		<div class="row" style="padding-left: 20px;">
+			{% for post in clean_shoes_posts %}
+				<div class="card" style="padding: 20px; min-width: 200px">
+					<p>Shoe Cleaning</p>
+					<h6>${{ post.cost }}</h6>
+					<p>{{ post.selectedTime }}</p>
+					<b><a href="/profile/{{ post.username }}" style="color: #000;">{{ post.username }}</a></b>
+					{% if not session['account'] %}
+						<button class="btn btn-outline-primary">Get Now</button>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+		{% if session['account'] %}
+			{% if session['account']['provider']['is_provider'] == True %}
+				<meta id="username" data-name="{{ session['account']['username'] }}">
+				<button class="btn btn-primary " id="new-post-button" data-toggle="modal" data-target="#new-post-modal">New Post</button>
+				<!-- Connect Website  -->
+			    <div class="modal fade" id="new-post-modal" tabindex="-1" role="dialog">
+			      <div class="modal-dialog" role="document">
+			        <div class="modal-content">
+			          <div class="modal-header">
+			            <h5 class="modal-title">New Post</h5>
+			            <button type="button" id="dismiss-new-post-modal" class="close" data-dismiss="modal" aria-label="Close">
+			              <span aria-hidden="true">&times;</span>
+			            </button>
+			          </div>
+			          <div class="modal-body">
+			          	  <form method="POST">
+				          	  <h6>Service:</h6>
+				        	  <select id="new-post-service-select" onchange="newPost()">
+				        	  	<option value="design-shoes" selected="true">Design Shoes</option>
+				        	  	<option value="clean-shoes">Clean Shoes</option>
+				        	  </select>
+
+				        	  <!-- Shoe Design Form -->
+				        	  <div id="design-shoes-selected">
+					        	  <p><input type="text" name="new-post-shoe" id="new-post-shoe" placeholder="Shoe Ex: Jordan 11s" style="min-width: 300px;" ></p>
+					        	  <p><textarea cols="30" rows="10" id="new-post-description" placeholder="Description Ex: New color way, new design, etc."></textarea></p>
+					        	  <p>$ <input type="text" name="new-post-design-shoes-cost" id="new-post-design-shoes-cost" placeholder="Cost"></p>
+					        	  <p>
+					        	  	<select id="new-post-time-design-shoes-select">
+					        			<option value="none" selected="true" disabled>Select Time Needed</option>
+					        			<option value="3-days">3 Days</option>
+					        			<option value="5-days">5 Days</option>
+					        			<option value="7-days">7 Days</option>
+					        			<option value="10-days">10 Days</option>
+					        	  	</select>
+					        	  </p>
+					        	  <input type="file" name="file-name-picture" accept="image/*">
+				        	  </div>
+
+				        	  <!-- Shoe Clean Form -->
+				        	  <div id="clean-shoes-selected" style="display: none;">
+					        	  <p>$ <input type="text" name="new-post-clean-shoes-cost" id="new-post-clean-shoes-cost" placeholder="Cost"></p>
+				        	  	  <select id="new-post-time-clean-shoes-select">
+				        			<option value="none" selected="true" disabled>Select Time Needed</option>
+				        			<option value="3-days">3 Days</option>
+				        			<option value="5-days">5 Days</option>
+				        			<option value="7-days">7 Days</option>
+				        		  	<option value="10-days">10 Days</option>
+				        	  	  </select>
+				        	  </div>
+				        	  <p><input type="submit" class="btn btn-primary" id="new-post-submit-button" value="Post!"></p>
+							  <p id="error-message" class="text-danger"></p>
+			          	  </form>
+			          </div>
+			        </div>
+			      </div>
+			    </div>
+			    <script type="text/javascript" src="{{ url_for('explore.static', filename='js/explore_in_session.js') }}"></script>
+			{% endif %}
+		{% endif %}
+	</div>
 {% endblock %}

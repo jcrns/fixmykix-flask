@@ -81,7 +81,17 @@
 			</div>
 			<br>
 			<div class="row">
-				<h1 class="text-right">No Items</h1>
+				{% if not posts %}
+					<h1>No Posts</h1>
+				{% endif %}
+				{% for post in posts %}
+					<div class="card" style="padding: 20px;">
+						<p>Shoe Cleaning</p>
+						<h6>${{ post.cost }}</h6>
+						<p>{{ post.selectedTime }}</p>
+						<b><a href="/profile/{{ post.username }}" style="color: #000;">{{ post.username }}</a></b>
+					</div>
+				{% endfor %}
 			</div>
 		</div>
 	{% endif %}

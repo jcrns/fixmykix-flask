@@ -47,6 +47,8 @@ def home(username):
 		# Getting database
 		usersData = dict(database.child("users").get().val())
 
+		postsData = database.child("posts").get().val()
+
 		# Finding matching url username
 		for user in usersData:
 			# print('xbbase')
@@ -54,6 +56,7 @@ def home(username):
 			# Getting username
 			iteratedUsername = usersData[user]['account']['username']
 			print(iteratedUsername)
+			print(user)
 			# Checking for matching username
 			if iteratedUsername == username:
 				print("founsdd")
@@ -64,8 +67,16 @@ def home(username):
 				city = usersData[user]['account']['city']
 				setup_complete = usersData[user]['account']['setup_complete']
 				title = username + " - FixMyKix"
+				userPostList = []
+				try:
+					for post in postsData:
+						if post['username'] == username:
+							userPostList.append(post)
+				except Exception as e:
+					print(e)
+					print('not post')
 				if setup_complete == True:
-					return render_template("profile/profile.html", viewing=True, title=title, email=email, username=username, number_of_transactions=number_of_transactions, rating=rating, city=city) 
+					return render_template("profile/profile.html", viewing=True, title=title, email=email, username=username, number_of_transactions=number_of_transactions, rating=rating, city=city, posts=userPostList) 
 				else:
 					print('not setup')
 					flash(f'Url not found', 'text-danger')
@@ -73,6 +84,6 @@ def home(username):
 			else:
 				print('not found')
 
-				# Redirecting user for unfound url
-				flash('Url not found', 'text-danger')
-				return redirect(url_for('homepage.home'))
+		# Redirecting user for unfound url
+		flash('Url not found', 'text-danger')
+		return redirect(url_for('homepage.home'))

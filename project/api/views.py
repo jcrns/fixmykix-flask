@@ -7,6 +7,9 @@ from project.firebase_connection import firebaseConnect
 # Importing random
 from random import randint
 
+# Importing time
+from time import *
+
 api = Blueprint('api', __name__)
 
 # FIREBASE AUTHENTICATION
@@ -16,6 +19,7 @@ database = databaseConnect['database']
 
 authe = databaseConnect['authe']
 
+storage = databaseConnect['storage']
 
 # Random id genorator
 def random_with_N_digits(n):
@@ -64,10 +68,10 @@ def createUserFunc(name, email, username, address, city, zip_code, description, 
 
 		# Assigning json data to variable to return to database
 		if description and business_name != 0:
-			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "description" : description, "business_name" : business_name, "provider": { "is_provider": True, "clean_shoes": False, "shoe_artist": False, "background_info": "", "about_brand_or_individual": "", "accepted": "" }, "setup_complete": False, "number_of_transactions": 0, "rating": 0 }
+			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "description" : description, "business_name" : business_name, "provider": { "is_provider": True, "clean_shoes": False, "shoe_artist": False, "background_info": "", "about_brand_or_individual": "", "accepted": "" }, "setup_complete": False, "number_of_transactions": 0, "rating": 0, "created_at": time() }
 		else:
 			print("user not provider")
-			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "description" : "", "business_name" : "", "provider": { "is_provider": False, "clean_shoes": False, "shoe_artist": False, "background_info": "", "about_brand_or_individual": "", "accepted": "" }, "setup_complete": True, "number_of_transactions": 0, "rating": 0 }
+			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "description" : "", "business_name" : "", "provider": { "is_provider": False, "clean_shoes": False, "shoe_artist": False, "background_info": "", "about_brand_or_individual": "", "accepted": "" }, "setup_complete": True, "number_of_transactions": 0, "rating": 0, "created_at": time() }
 
 		transactionHistoryDict = { "title": "", "description": "", "date": "", "cost_paid": "" }
 		message = { "sender": "", "reciever":"", "message":"", "date_time": "" }
@@ -155,10 +159,11 @@ def updateSetup(background_info, about_brand_or_individual, clean_shoes, usernam
 	print('setup')
 	# Getting database
 	usersData = dict(database.child("users").get().val())
-
 	# Finding matching url username
 	for user in usersData:
 		iteratedUsername = usersData[user]['account']['username']
+		print(user)
+		print(username)
 		if username == iteratedUsername:
 			print(username)
 			print(iteratedUsername)
@@ -173,7 +178,7 @@ def updateSetup(background_info, about_brand_or_individual, clean_shoes, usernam
 			return 'success'
 		else:
 			print('not found')
-			return 'not found'
+	return 'not found'
 
 # New post 
 @api.route("/new-post-api", methods=['POST'])
@@ -212,7 +217,7 @@ def newPostApi():
 def newPost(shoeName, shoeDescription, cost, username, selectedTime, clean_shoes, shoe_artist):
 	print('setup')
 	postId = random_with_N_digits(16)
-	postJson = {"shoe_name": shoeName, "shoe_description": shoeDescription, "cost": cost, "username": username, "selectedTime": selectedTime, "clean_shoes": clean_shoes, "shoe_artist": shoe_artist, "post_id": postId}
+	postJson = {"shoe_name": shoeName, "shoe_description": shoeDescription, "cost": cost, "username": username, "selectedTime": selectedTime, "clean_shoes": clean_shoes, "shoe_artist": shoe_artist, "post_id": postId, "posted_at": time() }
 	
 	# updating database
 	try:

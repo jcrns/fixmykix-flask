@@ -27,5 +27,8 @@ def firebaseConnect():
 
 	returnData['authe'] = authe
 
+	storage = firebase.storage()
 
+	returnData['storage'] = storage
+	
 	return returnData
