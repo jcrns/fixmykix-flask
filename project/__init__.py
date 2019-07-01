@@ -16,6 +16,9 @@ from project.profile.views import profile
 # Importing explore
 from project.explore.views import explore
 
+# Importing api
+from project.api.views import api
+
 # Importing ssl
 import ssl
 
@@ -35,6 +38,8 @@ app.register_blueprint(users)
 app.register_blueprint(profile)
 
 app.register_blueprint(explore)
+
+app.register_blueprint(api)
 
 
 # Config

@@ -13,7 +13,7 @@ databaseConnect = firebaseConnect()
 database = databaseConnect['database']
 
 # Creating blueprint for app
-profile = Blueprint('profile', __name__, static_folder='static' , template_folder='templates', static_url_path='/static/dashboard')
+profile = Blueprint('profile', __name__, static_folder='static' , template_folder='templates', static_url_path='/static/profile')
 
 
 # Profile function
@@ -24,8 +24,13 @@ def home(username):
 	# Trying to define variable
 	try:
 		sessionUsername = session['account']['username']
+		userInSession = session['user']
+		uid = userInSession['localId']
+		userAccount = dict(database.child("users").child(uid).child("account").get().val())
+		session['account'] = userAccount
 	except Exception as e:
 		print('uu')
+		print(e)
 		sessionUsername = ''
 
 	print(sessionUsername)
@@ -36,6 +41,7 @@ def home(username):
 		title = username + " - FixMyKix"
 		return render_template('profile/profile.html',viewing=False, title=title)
 	else:
+		# Viewing a profile
 		print('xbase')
 
 		# Getting database

@@ -14,30 +14,9 @@ explore = Blueprint('explore', __name__, template_folder='templates', static_fol
 
 @explore.route("/explore", methods=['GET', 'POST'])
 def home():
-	providersList = []
-
-	# Counter for for loop
-	providerCount = 0
-
-	# Getting user data
-	usersData = dict(database.child("users").get().val())
-	for user in usersData:
-		if providerCount == 10:
-			break
-		# Definning variable
-		getProvider = usersData[user]['account']['provider']
-
-		# Looking for provider
-		if getProvider == True:
-
-			# Found provider provider count added by 1
-			providerCount += 1
-
-			# Definning dict
-			providerDict = {}
-
-			# Definning correct variables
-			username = usersData[user]['account']['username']
-			rating = usersData[user]['account']['username']
-
+	getPost = database.child("posts").get().val()
+	print('getPost')
+	print('getPost')
+	for post in getPost:
+		print(post[''])
 	return render_template('explore/explore.html')

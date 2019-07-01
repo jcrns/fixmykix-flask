@@ -64,6 +64,7 @@ def login():
 		try:
 			if finalizedData['message'] == 'success':
 				session['account'] = finalizedData['account']
+				session['user'] = finalizedData['user']
 				if finalizedData['account']['provider']['is_provider'] == True:
 					print('is provider')
 					print('fixed session')

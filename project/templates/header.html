@@ -34,7 +34,8 @@
         {% if session['account'] %}
         <a href="{{ url_for('profile.home', username=session['account']['username']) }}"><span class="font-weight-bold" style="color: #212121">{{ session['account']['username'] }}</span></a>
         {% endif %}
-        <a href=""><span class="font-weight-bold" style="color: #212121"></span></a>
+        <input class="float-center" type="text" name="search-bar" id="search-bar" style="margin-left: 100px;" placeholder="Search">
+        <input class="float-center" type="button" name="search-button" id="search-button" class="btn btn-success" value="Go">
         <div class="collapse navbar-collapse" id="collapse_target">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
