@@ -1,0 +1,94 @@
+{% block content %}
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>FixMyKix - Early Registration</title>
+
+			<!-- Jquery -->
+		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+		    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="crossorigin="anonymous"></script>
+
+		    <!-- Bootstrap CSS and JS -->
+		    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		    <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+
+		</head>
+		<body>
+			<style type="text/css">
+		        /*Body Styling*/
+		        * {
+		            -webkit-overflow-scrolling: touch;
+		        }
+		        html,body
+		        {
+		            width: 100%;
+		            height: 100%;
+		            margin: 0px;
+		            padding: 0px;
+		            overflow-x: hidden; 
+		        }
+		    	.nav-link-header {
+		    		color: #000;
+		    	}
+		    	#logo-header {
+		    		width: 100px;
+		    		height: 40px;
+		    	}
+		    </style>
+		    {# Messages #}
+		    {% with messages = get_flashed_messages(with_categories=true) %}
+		        {% if messages %}
+		            {% for category, message in messages %}
+		                <div class="alert {{ category }} bg-light"> {{ message|capitalize }} </div>
+		            {% endfor %}
+		        {% endif %}
+		    {% endwith %}
+			<div class="container register-form">
+		        <form method="POST">
+		            <!-- Token block needed for added security -->
+		            {{ form.hidden_tag() }}
+		            <fieldset class="form-group">
+		                <legend class="border-bottom mb-4">Admin</legend>
+		                <div class="form-group">
+		                    {{ form.email.label(class="form-control-label") }}
+
+		                    {%  if form.email.errors %}
+		                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+		                        <div class="invalid-feedback ">
+		                            {% for error in form.email.errors %}
+		                                <span>{{  error }}</span>
+		                            {% endfor %}
+		                        </div>
+		                    {% else %}
+		                            {{ form.email(class="form-control form-control-lg") }}
+		                    {% endif %}
+		                </div>
+		                <div class="form-group">
+		                    {{ form.password.label(class="form-control-label") }}
+
+		                    {%  if form.password.errors %}
+		                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+		                        <div class="invalid-feedback ">
+		                            {% for error in form.password.errors %}
+		                                <span>{{  error }}</span>
+		                            {% endfor %}
+		                        </div>
+		                    {% else %}
+		                            {{ form.password(class="form-control form-control-lg") }}
+		                    {% endif %}
+		                </div>
+		            </fieldset>
+		            <div class="form-group">
+		                {{ form.submit(class="btn btn-secondary") }}
+		            </div>
+		        </form>
+		        <div class="border-top pt-3">
+		            <small class="text-muted">
+		            Already have an account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
+		            </small>
+		        </div>
+			</div>
+		</body>
+	</html>
+{% endblock %}

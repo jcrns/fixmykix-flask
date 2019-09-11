@@ -1,0 +1,72 @@
+.profile-sidebar span {
+	margin-left: 10px;
+	font-size: 20px;
+	background-color: #fff
+}
+#large-card {
+	min-height: 20vh
+}
+
+#profile-pic {
+	margin-left: 15px; 
+	width: 180px; 
+	height: 180px;
+}
+#info-div {
+	margin-left: 25px;
+}
+#user-description {
+	margin-left: 25px;
+}
+#sidebar-nav {
+	min-height: 55vh; 
+	background-color: #F5F5F5;
+}
+#main-div {
+	overflow: auto; 
+	height: 55vh;
+}
+#main-div #transaction-div, #request-obj, #view-messages, #settings-div, #view-posts {
+	overflow: auto; 
+	height: 55vh; 
+	background-color: #F5F5F5;
+}
+#view-messages, #request-obj {
+	min-width: 50%;
+}
+#messages-div {
+	/*position: relative;*/
+}
+#message-history-div {
+	overflow: auto;
+	max-height: 10vh;
+}
+#username-input {
+	min-width: 22vw;
+}
+#message-input-p {
+	/*position: absolute; */
+	/*bottom: 0px;*/
+}
+#message-input {
+	min-width: 42vw;
+}
+.past-message-item {
+	color: #000;
+	text-decoration:  none;
+}
+#back-from-messages {
+	bottom: 0;
+	display: none;
+}
+#back-from-messages img {
+	width: 35px;
+	height: 35px;
+}
+#service-btn-send {
+	bottom: 0;
+}
+#post-card img {
+	width: 50px;
+	height: 50px;
+}

@@ -1,0 +1,105 @@
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
+#new-post-button { 
+	position: fixed; bottom: 10px; right: 10px; 
+	font-size: 20px;
+}
+.profile-pic-thumbnail {
+	border-radius: 50%;
+	margin-left: 100px;
+	width: 50px; 
+	height: 50px;
+}
+.post_pic {
+	max-height: 350px;
+	max-width: 350px;
+}
+
+/*New post*/
+#new-post-row {
+	padding-left: 20px;
+}
+.new-post-shoe-artist-card {
+	padding: 20px; 
+	min-width: 200px;
+}
+.new-post-shoe-name {
+	font-size: 20px;
+}
+.new-post-shoe-name a {
+	color: #000;
+}
+.new-post-username {
+	padding-left: 10px;
+}
+.new-post-username a {
+	color: #000;
+}
+.new-post-clean-shoes-card {
+	padding: 20px; 
+	min-width: 200px;
+}
+.new-post-clean-shoes-card a {
+	color: #000;
+}
+
+/*Top artist*/
+#top-artist-row {
+	padding-left: 20px;
+}
+.top-artist-card {
+	padding: 20px;
+	min-width: 300px;
+}
+.top-artist-card a{ 
+	color: #000;
+}
+
+/*New Artist*/
+#new-artist-row {
+	padding-left: 20px;
+}
+.new-artist-card {
+	padding: 20px;
+	min-width: 300px;
+}
+.new-artist-card a {
+	color: #000;
+}
+
+/*Shoe cleaning*/
+#shoe-clean-row {
+	padding-left: 20px;
+}
+.shoe-clean-card {
+	padding: 20px; 
+	min-width: 200px;
+}
+.shoe-clean-card a {
+	color: #000;
+}
+
+/*New post form*/
+#new-post-shoe {
+	min-width: 300px;
+}
+#clean-shoes-selected {
+	display: none;
+}
+
+/*Homepage*/
+.all-users-p {
+	font-size: 20px;
+}
+.home-title {
+	background-color: rgba(0, 0 ,0, 0.5);
+	color: #fff;
+	bottom: 10px;
+	position: absolute;
+}

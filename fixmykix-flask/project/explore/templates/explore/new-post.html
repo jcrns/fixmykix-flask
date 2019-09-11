@@ -1,0 +1,44 @@
+{% extends "header.html" %}
+{% block content %}
+	<div class="container-fluid">
+		<form method="POST" enctype="multipart/form-data" id="new-post-form" action="/new-post-api">
+			<h6>Service:</h6>
+			<select id="new-post-service-select" onchange="newPost()" name="service_type">
+				<option value="design-shoes" selected="true" value="design-shoes">Design Shoes</option>
+				<option value="clean-shoes" value="clean-shoes">Clean Shoes</option>
+			</select>
+			<br>
+			<h6>Brand: </h6>
+			<select id="selected-brand" name="selected_brand">
+				<option value="nike" selected>Nike</option>
+				<option value="jordan">Jordan</option>
+				<option value="adidas">Adidas</option>
+				<option value="puma">Puma</option>
+				<option value="vans">Vans</option>
+				<option value="other">Other</option>
+			</select>
+			<br>
+			<!-- Shoe Design Form -->
+			<div id="design-shoes-selected">
+				<h6>Shoe: </h6>
+				<p><input type="text" name="new-post-shoe" id="new-post-shoe" placeholder="Ex: Jordan 11s"></p>
+				<h6>Description: </h6>
+				<p><textarea cols="30" rows="10" name="new-post-description" id="new-post-description" placeholder=" Ex: New color way, new design, etc."></textarea></p>
+				<h6>Tags: </h6>
+				<p><textarea cols="30" rows="10" name="new-post-tags" id="new-post-tags" placeholder=" Ex: #Airforce #jordan #new-release"></textarea></p>
+				<p>$ <input type="text" name="new-post-design-shoes-cost" id="new-post-design-shoes-cost" placeholder="Cost"></p>
+				<input type="file" name="post_pic" accept="image/*" multiple>
+			</div>
+
+			<!-- Shoe Clean Form -->
+			<div id="clean-shoes-selected">
+				<p>
+					$ <input type="text" name="new-post-clean-shoes-cost" id="new-post-clean-shoes-cost" placeholder="Cost">
+				</p>
+			</div>
+			<p><input type="submit" class="btn btn-primary" id="new-post-submit-button" value="Post"></p>
+			<p id="error-message" class="text-danger"></p>
+		</form>
+	</div>
+	<script type="text/javascript" src="{{ url_for('explore.static', filename='js/explore_in_session.js') }}"></script>
+{% endblock %}

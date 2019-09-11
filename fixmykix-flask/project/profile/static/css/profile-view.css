@@ -1,0 +1,21 @@
+.profile-sidebar span {
+	margin-left: 10px;
+	font-size: 20px;
+}
+#profile-pic {
+	margin-left: 15px; 
+	width: 180px; 
+	height: 180px;
+}
+#profile-info-section {
+	min-height: 20vh;
+}
+#grouped-profile-info {
+	margin-left: 25px;
+}
+#post-card {
+	padding: 20px;
+}
+#post-card a {
+	color: #000;
+}

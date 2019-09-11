@@ -1,0 +1,15 @@
+{% extends "header.html" %}
+{% block content %}
+	<link href="{{ url_for('explore.static', filename = 'css/explore.css') }}" rel="stylesheet">
+	<div class="container">
+		<h2>Users</h2>
+		{% for user in users %}
+			<div class="mx-auto card" id="top-artist-card">
+				<h4><a class="text-dark" href="/profile/{{ user.account.username }}">{{ user.account.username }}<span><img src="{{ user.account.profile_pic_url }}" class="profile-pic-thumbnail"></span></a></h4>
+				<small>{{ user.rating }}</small>
+				<p>{{ user.account.description }}</p>
+				<b>{{ user.account.city }}</b>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

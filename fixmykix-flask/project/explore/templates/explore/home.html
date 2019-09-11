@@ -1,0 +1,50 @@
+{% extends "header.html" %}
+{% block content %}
+	<link href="{{ url_for('explore.static', filename = 'css/explore.css') }}" rel="stylesheet">
+		<div class="row container-fluid">
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<h1 class="home-title">SHOE ART</h1>
+				<a href="{{ url_for('explore.home') }}"><img class="img-fluid" src="{{ url_for('explore.static', filename='img/shoe-art.jpg') }}"></a>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<h1 class="home-title">SHOE RESTORATION</h1>
+				<a href="{{ url_for('explore.home') }}"><img class="img-fluid" src="{{ url_for('explore.static', filename='img/shoe-restoration.jpg') }}"></a>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="row" id="popular-post">
+				
+			</div>
+			<!-- Top Artist Section -->
+			<h2>Top Artists <span><a class="all-users-p text-dark" href="{{ url_for('explore.users') }}">All Users</a></span></h2>
+			<div class="row" id="top-artist-row">
+				{% for user in final_top_provider %}
+					<div class="card top-artist-card">
+							<h4><a href="/profile/{{ user.account.username }}">{{ user.account.username }}<span><img src="{{ user.account.profile_pic_url }}" class="profile-pic-thumbnail"></span></a></h4>
+							<small>{{ user.rating }}</small>
+							<p>{{ user.account.description }}</p>
+							<b>{{ user.account.city }}</b>
+					</div>
+				{% endfor %}
+			</div>
+
+			<!-- New Artist Section -->
+			<hr>
+			<h2>New Artist <span><a class="all-users-p text-dark" href="{{ url_for('explore.users') }}">All Users</a></span></h2>
+			<div class="row" id="new-artist-row">
+				{% for user in final_recent_provider %}
+					<div class="card new-artist-card">
+						<h4><a href="/profile/{{ user.account.username }}">{{ user.account.username }}<span><img src="{{ user.account.profile_pic_url }}" class="profile-pic-thumbnail"></span></a></h4>
+						<small>{{ user.rating }}</small>
+						<p>{{ user.account.description }}</p>
+						<div class="wrapper">
+							<p>
+								<b>{{ user.account.city }}</b>
+							</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	<script type="text/javascript" src="{{ url_for('explore.static', filename='js/explore.js') }}"></script>
+{% endblock %}
