@@ -343,18 +343,20 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 			image_urls_1 = []
 			
 			print('gerg')
-			print(previous_work_1)
+			print(previous_work_1[0])
 			print(previous_work_2)
 			print(previous_work_3)
 			
 			# Importing previous work
 			if previous_work_1[0] != '':
 				for pic in previous_work_1:	
+					print('eee')
 					picId = randomString(24)
 					putImg = storage.child("images").child("previous_work_1").child(picId).put(pic, picId)
 					image_url = storage.child("images").child("previous_work_1").child(picId).get_url(picId)
 					image_urls_1.append(image_url)
 			else:
+				print('eee')
 				return 'Add photos of previous work'
 
 			image_urls_2 = []
