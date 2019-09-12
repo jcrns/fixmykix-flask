@@ -39,6 +39,7 @@ def firebaseConnect():
 		
 		return returnData
 	else:
+		# OFFICIAL DB #
 		# Configuring connection to database
 		config = {
 			'apiKey': "AIzaSyAd59kgeeImaBUmuDvQAnHygW6zVmPbEmU",
