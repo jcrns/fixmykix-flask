@@ -36,7 +36,10 @@ def early():
 	# Checking if form is valid
 	if form.validate_on_submit():
 		# Running auth function
-		finalizedData = createUserFunc(form.name.data, form.email.data, form.username.data, form.address.data, form.city.data, form.zip_code.data, form.business_name.data, form.password.data, form.background_info.data, form.write_bio.data, form.clean_shoes.data, form.shoe_artist.data, form.examples_of_services_1.data, form.previous_work_1.data, form.examples_of_services_2.data, form.previous_work_2.data, form.examples_of_services_3.data, form.previous_work_3.data, form.questions_for_customers.data, form.describe_services.data)
+		results = createUserFunc(form.name.data, form.email.data, form.username.data, form.address.data, form.city.data, form.zip_code.data, form.business_name.data, form.password.data, form.background_info.data, form.write_bio.data, form.clean_shoes.data, form.shoe_artist.data, form.examples_of_services_1.data, form.previous_work_1.data, form.examples_of_services_2.data, form.previous_work_2.data, form.examples_of_services_3.data, form.previous_work_3.data, form.questions_for_customers.data, form.describe_services.data)
+		if results != 'success':
+			flash(results)
+			return redirect(url_for('about.early')) 
 		flash(f'Your Application was Submited! Be Sure to Check your Email!', 'success')
 		return redirect(url_for('about.home')) 
 	return render_template('admin/early.html', form=form)
