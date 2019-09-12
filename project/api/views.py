@@ -348,7 +348,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 			print(previous_work_3)
 			
 			# Importing previous work
-			if previous_work_1[0] != '':
+			if previous_work_1[0] != None:
 				for pic in previous_work_1:	
 					print('eee')
 					picId = randomString(24)
@@ -360,7 +360,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				return 'Add photos of previous work'
 
 			image_urls_2 = []
-			if previous_work_2[0] != '':
+			if previous_work_2[0] != None:
 				for pic in previous_work_2:	
 					picId = randomString(24)
 					putImg = storage.child("images").child("previous_work_2").child(picId).put(pic, picId)
@@ -370,7 +370,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				return 'Add photos of previous work'
 			
 			image_urls_3 = []
-			if previous_work_3[0] != '':
+			if previous_work_3[0] != None:
 				for pic in previous_work_3:	
 					picId = randomString(24)
 					putImg = storage.child("images").child("previous_work_3").child(picId).put(pic, picId)
