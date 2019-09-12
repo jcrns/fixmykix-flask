@@ -323,8 +323,8 @@ def signUpApi():
 
 def createUserFunc(name, email, username, address, city, zip_code, business_name, password, background_info, about_brand_or_individual, clean_shoes, shoe_artist, describe_services_1, previous_work_1, describe_services_2, previous_work_2, describe_services_3, previous_work_3, questions_for_customers, examples_of_services):
 	try:
-		print(email)
-		print(password)
+		print("email")
+		print("password")
 
 		# Assigning json data to variable to return to database
 		if about_brand_or_individual != 0 and business_name != 0:
@@ -341,7 +341,12 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				return 'failed'
 
 			image_urls_1 = []
-
+			
+			print('gerg')
+			print(previous_work_1)
+			print(previous_work_2)
+			print(previous_work_3)
+			
 			# Importing previous work
 			if len(previous_work_1) != 0:
 				for pic in previous_work_1:	
@@ -353,7 +358,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				return 'Add photos of previous work'
 
 			image_urls_2 = []
-			if len(previous_work_1) != 0:
+			if len(previous_work_2) != 0:
 				for pic in previous_work_2:	
 					picId = randomString(24)
 					putImg = storage.child("images").child("previous_work_2").child(picId).put(pic, picId)
@@ -363,7 +368,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				return 'Add photos of previous work'
 			
 			image_urls_3 = []
-			if len(previous_work_1) != 0:
+			if len(previous_work_3) != 0:
 				for pic in previous_work_3:	
 					picId = randomString(24)
 					putImg = storage.child("images").child("previous_work_3").child(picId).put(pic, picId)
