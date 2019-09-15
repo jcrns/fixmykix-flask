@@ -342,11 +342,6 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 
 			image_urls_1 = []
 			
-			print('gerg')
-			print(previous_work_1[0])
-			print(previous_work_2)
-			print(previous_work_3)
-			
 			# Importing previous work
 			if previous_work_1[0] != None:
 				for pic in previous_work_1:	
@@ -401,7 +396,7 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "business_name" : business_name, "provider": { "is_provider": True, "clean_shoes": clean_shoes, "shoe_artist": shoe_artist, "background_info": background_info, "about_brand_or_individual": about_brand_or_individual, "accepted": False, "describe_services_1" : describe_services_1, "describe_services_2" : describe_services_2, "describe_services_3" : describe_services_3, "previous_work_1" : image_urls_1, "previous_work_2" : image_urls_2, "previous_work_3" : image_urls_3, "questions_for_customers" : questions_for_customers, "examples_of_services" : examples_of_services }, "setup_complete": False, "number_of_transactions": 0, "rating": 0, "created_at": time(), "profile_pic_url": "null", "is_admin": False }
 		else:
 			print("user not provider")
-			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "business_name" : "null", "provider": { "is_provider": False, "clean_shoes": False, "shoe_artist": False, "background_info": "null", "about_brand_or_individual": "null", "accepted": "null" }, "setup_complete": True, "number_of_transactions": 0, "rating": 0, "created_at": time(), "profile_pic_url": "null", "is_admin": False  }
+			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "business_name" : "null", "provider": { "is_provider": False, "clean_shoes": False, "shoe_artist": False, "background_info": "null", "about_brand_or_individual": "null", "accepted": "null", "describe_services_1" : describe_services_1, "describe_services_2" : describe_services_2, "describe_services_3" : describe_services_3, "previous_work_1" : image_urls_1, "previous_work_2" : image_urls_2, "previous_work_3" : image_urls_3, "questions_for_customers" : questions_for_customers, "examples_of_services" : examples_of_services }, "setup_complete": True, "number_of_transactions": 0, "rating": 0, "created_at": time(), "profile_pic_url": "https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg", "is_admin": False  }
 
 		# transactionHistoryDict = { "title": "null", "description": "null", "date": "null", "cost_paid": "null", "status" : "null", "client" : "null", "provider" : "null", "id" : "null" }
 
@@ -513,8 +508,18 @@ def updateSetupApi():
 				flash('Check what service you provide')
 				return redirect(url_for('profile.home',username=username))
 
-			background_info = request.form['background_info']
-			write_about_brand = request.form['write_about_brand']
+			try:
+				background_info = request.form['background_info']
+			except Exception as e:
+				flash('Enter your background info')
+				return redirect(url_for('profile.home',username=username))
+
+			try:
+				write_about_brand = request.form['write_about_brand']
+			except Exception as e:
+				flash('Write about yourself/brand')
+				return redirect(url_for('profile.home',username=username))
+
 
 			try:
 				profile_pic = request.files['profile_pic']
@@ -523,22 +528,41 @@ def updateSetupApi():
 				return redirect(url_for('profile.home',username=username))
 
 			try:
-				describe_services = request.form['describe_services']
+				examples_of_services_1 = request.form['examples_of_services_1']
 			except Exception as e:
-				flash('Describe your Services')
+				flash('Describe 3 of your past services')
 				return redirect(url_for('profile.home',username=username))
-
 
 			try:
-				previous_work = request.files.getlist('previous_work')
+				examples_of_services_2 = request.form['examples_of_services_2']
 			except Exception as e:
-				flash('Show your previous work')
+				flash('Describe 3 of your past services')
 				return redirect(url_for('profile.home',username=username))
 
-			if background_info == '' or write_about_brand == '':
-				flash('Field Empty')
+			try:
+				examples_of_services_3 = request.form['examples_of_services_3']
+			except Exception as e:
+				flash('Describe 3 of your past services')
 				return redirect(url_for('profile.home',username=username))
 
+			try:
+				previous_work_1 = request.files.getlist('previous_work_1')
+			except Exception as e:
+				flash('Show pictures of your previous work')
+				return redirect(url_for('profile.home',username=username))
+			
+			try:
+				previous_work_2 = request.files.getlist('previous_work_2')
+			except Exception as e:
+				flash('Show pictures of your previous work')
+				return redirect(url_for('profile.home',username=username))
+
+			try:
+				previous_work_3 = request.files.getlist('previous_work_3')
+			except Exception as e:
+				flash('Show pictures of your previous work')
+				return redirect(url_for('profile.home',username=username))
+				
 			try:
 				questions_for_customers = request.form['questions_for_customers']
 			except Exception as e:
@@ -546,7 +570,7 @@ def updateSetupApi():
 				return redirect(url_for('profile.home',username=username))
 
 			try:
-				examples_of_services = request.form['examples_of_services']
+				describe_services = request.form['describe_services']
 			except Exception as e:
 				flash('Field Empty')
 
@@ -561,13 +585,13 @@ def updateSetupApi():
 			write_about_brand = request.json['write_about_brand']
 
 
-		setup = updateSetup(background_info, write_about_brand, clean_shoes, username, shoe_artist, profile_pic, previous_work, describe_services, questions_for_customers, examples_of_services)
+		setup = updateSetup(background_info, write_about_brand, clean_shoes, username, shoe_artist, profile_pic, examples_of_services_1, previous_work_1, examples_of_services_2, previous_work_2, examples_of_services_3, previous_work_3, questions_for_customers, describe_services)
 		flash(setup)
 		return redirect(url_for('profile.home',username=username))
 	else:
 		return jsonify({'message' : 'failed'})
 
-def updateSetup(background_info, about_brand_or_individual, clean_shoes, username, shoe_artist, profile_pic, previous_work, describe_services, questions_for_customers, examples_of_services):
+def updateSetup(background_info, about_brand_or_individual, clean_shoes, username, shoe_artist, profile_pic, describe_services_1, previous_work_1, describe_services_2, previous_work_2, describe_services_3, previous_work_3, questions_for_customers, examples_of_services):
 	print('setup\n\n\n\n\n\n\n\n\n\n\n\n')
 	print(clean_shoes)
 	print(shoe_artist)
@@ -592,10 +616,57 @@ def updateSetup(background_info, about_brand_or_individual, clean_shoes, usernam
 			if shoe_artist != True and clean_shoes != True:
 				return 'Check your service'
 			print('found')
+
+			# Importing previous work
+			image_urls_1 = []
+			
+			if previous_work_1[0] != None:
+				for pic in previous_work_1:	
+					print('eee')
+					try:
+						picId = randomString(24)
+						putImg = storage.child("images").child("previous_work_1").child(picId).put(pic, picId)
+						image_url = storage.child("images").child("previous_work_1").child(picId).get_url(picId)
+						image_urls_1.append(image_url)
+					except Exception as e:
+						print(e)
+						return 'failed'
+			else:
+				print('eee')
+				return 'Add photos of previous work'
+
+			image_urls_2 = []
+			if previous_work_2[0] != None:
+				for pic in previous_work_2:	
+					try:
+						picId = randomString(24)
+						putImg = storage.child("images").child("previous_work_2").child(picId).put(pic, picId)
+						image_url = storage.child("images").child("previous_work_2").child(picId).get_url(picId)
+						image_urls_2.append(image_url)
+					except Exception as e:
+						print(e)
+						return 'failed'
+			else:
+				return 'Add photos of previous work'
+			
+			image_urls_3 = []
+			if previous_work_3[0] != None:
+				for pic in previous_work_3:	
+					try:
+						picId = randomString(24)
+						putImg = storage.child("images").child("previous_work_3").child(picId).put(pic, picId)
+						image_url = storage.child("images").child("previous_work_3").child(picId).get_url(picId)
+						image_urls_3.append(image_url)
+					except Exception as e:
+						print(e)
+						return 'failed'
+			else:
+				return 'Add photos of previous work'
+
 			# Saving data
 			database.child("users").child(user).child("account").child("provider").child("background_info").set(background_info)
 			database.child("users").child(user).child("account").child("provider").child("about_brand_or_individual").set(about_brand_or_individual)
-			database.child("users").child(user).child("account").child("provider").child("describe_services").set(describe_services)
+			database.child("users").child(user).child("account").child("provider").child("examples_of_services").set(examples_of_services)
 			database.child("users").child(user).child("account").child("provider").child("clean_shoes").set(clean_shoes)
 			database.child("users").child(user).child("account").child("provider").child("shoe_artist").set(shoe_artist)
 			database.child("users").child(user).child("account").child("provider").child("is_provider").set(True)
@@ -606,15 +677,12 @@ def updateSetup(background_info, about_brand_or_individual, clean_shoes, usernam
 			putImg = storage.child("images").child(user).put(profile_pic, user)
 			image_url = storage.child("images").child(user).get_url(user)
 			database.child("users").child(user).child("account").child("profile_pic_url").set(image_url)
-
-			# Importing previous work
-			for pic in previous_work:	
-				picId = randomString(24)
-				putImg = storage.child("images").child("previous_work").child(picId).put(pic, picId)
-				image_url = storage.child("images").child("previous_work").child(picId).get_url(picId)
-				image_urls.append(image_url)
-
-			database.child("users").child(user).child("account").child("provider").child("previous_work").set(image_urls)
+			database.child("users").child(user).child("account").child("provider").child("describe_services_1").set(describe_services_1)
+			database.child("users").child(user).child("account").child("provider").child("previous_work_1").set(image_urls_1)
+			database.child("users").child(user).child("account").child("provider").child("describe_services_2").set(describe_services_2)
+			database.child("users").child(user).child("account").child("provider").child("previous_work_2").set(image_urls_2)
+			database.child("users").child(user).child("account").child("provider").child("describe_services_3").set(describe_services_3)
+			database.child("users").child(user).child("account").child("provider").child("previous_work_3").set(image_urls_3)
 
 			return 'success'
 		else:

@@ -27,10 +27,15 @@ def home(username):
 	if Launched == 'False':
 		return redirect(url_for('admin.early'))
 
-	# Getting database
-	usersData = dict(database.child("users").get().val())
+	try:
+		# Getting database
+		usersData = dict(database.child("users").get().val())
 
-	postsData = dict(database.child("posts").get().val())
+		postsData = dict(database.child("posts").get().val())
+
+	except Exception as e:
+		usersData = None
+		postsData = None
 
 	# Trying to define variable
 	try:
