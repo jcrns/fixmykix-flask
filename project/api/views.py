@@ -117,7 +117,7 @@ def scopeOfWorkPost(postId, username, sender, servicesDescription):
 			shoeDescription = post['shoe_description']
 			shoeCost = post['cost']
 			if shoeName == '':
-				title = 'Shoe Cleaning' - str(shoeCost)
+				title = 'Shoe Cleaning' + str(shoeCost)
 			title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
 
 		# Storing data in users history
