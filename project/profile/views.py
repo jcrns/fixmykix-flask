@@ -97,12 +97,18 @@ def home(username):
 		
 		try:
 			# Getting Service Request
+			print('sssssss')
 			serviceRequest = database.child("users").child(uid).child("history").child("service_request").get().val()
 			serviceRequestList = []
+			print('sdfergerg')
 			for request in serviceRequest:
-				serviceRequestDict = dict(database.child("service_request").child(request).get().val())
-				serviceRequestList.append(serviceRequestDict)
+				print('sergwergsdfergerg')
+				print(request)
+				serviceRequestData = dict(database.child("service_request").child(request).get().val())
+				print(serviceRequestData)
+				serviceRequestList.append(serviceRequestData)
 		except Exception as e:
+			print("service_request error")
 			print(e)
 			serviceRequestList = [{ "sender": "null", "reciever":"null", "post_id":"null", "date": "null", "time" : "null", "title" : "null" }]
 

@@ -85,7 +85,7 @@
 				<div class="row" id="shoe-clean-row">
 					{% for post in clean_shoes_posts %}
 						<div class="card shoe-clean-card">
-							<p>Shoe Cleaning</p>
+							<p><a href="post/{{ post.post_id }}">Shoe Cleaning</a></p>
 							<h6>${{ post.cost }}</h6>
 							<p>{{ post.selectedTime }}</p>
 							<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>

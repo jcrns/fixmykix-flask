@@ -122,6 +122,11 @@
 									{% else %}
 										{% set party = service.reciever %}
 									{% endif %}
+									{% if messages[0]['party'] == "null" and scope_of_work[0]['sender'] == 'null' %}
+										<ul class="list-group convo-list-item" id="convo-past-list">
+											<a href="#" onclick="showConvo('{{ party }}')"><li class="list-group-item past-message-item">{{ party }}</li></a>
+										</ul>
+									{% endif %}
 									<div data-postid="{{ service.post_id }}" data-title="{{ service.title }}" class="card bg-white service-request service-request-{{ party }}">
 										<h6>Service Request</h6>
 										<p>{{ service.title }}</p>

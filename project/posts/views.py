@@ -65,4 +65,4 @@ def home(postId):
 				return render_template('posts/post.html', cost=cost, shoe_name=shoe_name, shoe_description=shoe_description, username=username, clean_shoes=clean_shoes, shoe_artist=shoe_artist, post_pic_urls=post_pic_urls, post_id=post_id, comments=comments, city=city, requested=requested)
 	except Exception as e:
 		print(e)
-		return redirect(url_for('explore.explore'))
+		return redirect(url_for('explore.home'))

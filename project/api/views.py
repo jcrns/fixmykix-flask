@@ -82,15 +82,10 @@ def adminAccepted():
 @api.route("/scope-of-work-post-api", methods=['GET', 'POST'])
 def scopeOfWorkPostApi():
 	try:
-		print(request.form)
-
+		print("scope of work")
 		# Assigning variables equvilent to posted data
 		servicesDescription = request.form['services_description']
-
-		print('fgtgwrg')
 		postId = request.form['post_id']
-		print('fgtgwrg')
-
 		username = request.form['party']
 		sender = session['account']['username']
 		print('fgtgwrg')
@@ -116,13 +111,14 @@ def scopeOfWorkPost(postId, username, sender, servicesDescription):
 		value = 'failed'
 
 		# Creating title for service request
-		posts = database.child("posts").get().val()
-		for post in posts:
-			if post['post_id'] == postId:
-				shoeName = post['shoe_name']
-				shoeDescription = post['shoe_description']
-				shoeCost = post['cost']
-				title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
+		post = dict(database.child("posts").child(postId).get().val())
+		if post['post_id'] == postId:
+			shoeName = post['shoe_name']
+			shoeDescription = post['shoe_description']
+			shoeCost = post['cost']
+			if shoeName == '':
+				title = 'Shoe Cleaning' - str(shoeCost)
+			title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
 
 		# Storing data in users history
 		for user in users:
@@ -172,16 +168,12 @@ def serviceRequestPostApi():
 	try:
 		# Assigning variables equvilent to posted data
 		postId = request.form['post_id']
-		posts = database.child("posts").get().val()
-		for post in posts:
-			if post['post_id'] == postId:
-				username = post['username']
+		post = dict(database.child("posts").child(postId).get().val())
+		if post['post_id'] == postId:
+			username = post['username']
 
 		sender = session['account']['username']
-		print('fgtgwrg')
 		post = serviceRequestPost(postId, username, sender)
-
-		print(postId)
 		return post
 	except Exception as e:
 		print(e)
@@ -203,13 +195,15 @@ def serviceRequestPost(postId, username, sender):
 		print(value)
 
 		# Creating title for service request
-		posts = database.child("posts").get().val()
-		for post in posts:
-			if post['post_id'] == postId:
-				shoeName = post['shoe_name']
-				shoeDescription = post['shoe_description']
-				shoeCost = post['cost']
-				title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
+		post = dict(database.child("posts").child(postId).get().val())
+		if post['post_id'] == postId:
+			print('sss')
+			shoeName = post['shoe_name']
+			shoeDescription = post['shoe_description']
+			shoeCost = post['cost']
+			if shoeName == '':
+				title = 'Shoe Cleaning' - str(shoeCost)
+			title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
 		print(value)
 
 		# Storing data in users history
