@@ -41,13 +41,15 @@ def homepage():
 				break
 			print('user')
 			userData = getUsers[user]
+			print(userData['account']['username'])
 			print(userData['account']['setup_complete'])
 			if userData['account']['provider']['is_provider'] == True and userData['account']['setup_complete'] == True:
 				print('aaaa')
 				rating = int(getUsers[user]['account']['rating'])
 				sortRatingProvider.append(rating)
 				counter += 1
-
+		print(sortRatingProvider)
+		print("sortRatingProvider")
 		sortRatingProvider.sort()
 		for number in sortRatingProvider:
 			print(number)
@@ -72,7 +74,7 @@ def homepage():
 				break
 			userData = getUsers[user]
 			if userData['account']['provider']['is_provider'] == True and userData['account']['setup_complete'] == True:
-				print('aaaa')
+				print(userData)
 				creation = userData['account']['created_at']
 				timeNow = time()
 				timeDiff = timeNow - creation # In Seconds
@@ -80,6 +82,7 @@ def homepage():
 					continue
 				print('aa')
 				timeList.append(creation)
+		print(timeList)
 		timeList.sort()
 		for number in timeList:
 			print(number)
@@ -91,7 +94,7 @@ def homepage():
 	except Exception as e:
 		print(e)
 		print('no recent providers')
-
+	print(finalTopProvider)
 	return render_template('explore/home.html', final_top_provider=finalTopProvider, final_recent_provider=finalRecentProviders)
 
 @explore.route("/users", methods=['GET', 'POST'])

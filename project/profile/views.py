@@ -174,7 +174,7 @@ def home(username):
 				else:
 					print('not setup')
 					flash(f'Url not found', 'text-danger')
-					return redirect(url_for('homepage.home'))
+					return redirect(url_for('explore.home'))
 			else:
 				print('not found')
 

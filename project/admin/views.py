@@ -66,6 +66,8 @@ def login():
 	if form.validate_on_submit():
 		# Signing user in
 		finalizedData = signInFunc(form.email.data, form.password.data)
+		if finalizedData['message'] != 'success':
+			return redirect(url_for('admin.early'))
 		if finalizedData['account']['is_admin'] == True:	
 			session['account'] = finalizedData['account']
 			session['user'] = finalizedData['user']
