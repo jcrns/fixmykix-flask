@@ -23,7 +23,7 @@ explore = Blueprint('explore', __name__, template_folder='templates', static_fol
 def homepage():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('about.home'))
 	try:
 		# Trying to get data
 		getPosts = database.child("posts").get().val()
