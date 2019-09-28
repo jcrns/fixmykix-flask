@@ -30,5 +30,5 @@ def login_required_early(f):
             flash("You need to login first")
 
             # Redirecting User
-            return redirect(url_for('admin.login'))
+            return redirect(url_for('admin.early'))
     return wrap

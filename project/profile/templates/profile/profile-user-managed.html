@@ -1,6 +1,9 @@
 {% block content %}
 	<link href="{{ url_for('profile.static', filename = 'css/profile-managed.css') }}" rel="stylesheet">
 	<input type="hidden" id="username" value="{{ session['account']['username'] }}">
+	<script type="text/javascript">
+		alert("{{ messages }}")
+	</script>
 	<div class="container-fluid">
 		<h6>{{ session['account']['email'] }}</h6>
 		<div class="row">

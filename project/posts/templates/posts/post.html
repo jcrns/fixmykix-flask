@@ -7,13 +7,15 @@
 				<p class="display-2">{{ shoe_name }}</p>
 				<h6>{{ city }}</h6>
 				<img src="{{ post_pic_urls[0] }}" class="post-pic">
-				<div class="row">
-					{% for pic in post_pic_urls %}
-						<div class="card">
-							<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small"></a>
-						</div>
-					{% endfor %}
-				</div>
+				{% if post_pic_urls|length > 1 %}
+					<div class="row">
+						{% for pic in post_pic_urls %}
+							<div class="card">
+								<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small"></a>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
 			</div>
 			<p>
 				<h4><b>$ {{ cost }}</b> <span id="username"><a class="text-dark" href="/profile/{{ username }}">{{ username }}</a></span></h4>
