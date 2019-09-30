@@ -1,9 +1,6 @@
 {% block content %}
 	<link href="{{ url_for('profile.static', filename = 'css/profile-managed.css') }}" rel="stylesheet">
 	<input type="hidden" id="username" value="{{ session['account']['username'] }}">
-	<script type="text/javascript">
-		alert("{{ messages }}")
-	</script>
 	<div class="container-fluid">
 		<h6>{{ session['account']['email'] }}</h6>
 		<div class="row">
@@ -99,24 +96,26 @@
 				<div id="messages">
 					<div class="card" id="view-messages">
 						<h5 id="message-title-p">Messages</h5>
-						{% if messages[0]['party'] != "null" %}
-							{% for convo in messages %}
+						{% if parties|length > 0 %}
+							{% for party in parties %}
 								<ul class="list-group convo-list-item" id="convo-past-list">
-									<a href="#" onclick="showConvo('{{ convo.party }}')"><li class="list-group-item past-message-item">{{ convo.party }}</li></a>
+									<a href="#" onclick="showConvo('{{ party }}')"><li class="list-group-item past-message-item">{{ party }}</li></a>
 								</ul>
-								{% for message_data in convo.messages %}
-									{% if message_data.reciever == session['account']['username'] %}
-										<p class="messages-{{ convo.party }} messages" style="display: none;"><span class="bg-secondary" style="border-radius: 1px;">{{ message_data.message }}</span></p>
-									{% endif %}
-									{% if message_data.sender == session['account']['username'] %}
-										<p class="messages-{{ convo.party }} messages ml-auto" style="display: none;"><span class="bg-white" style="border-radius: 1px;">{{ message_data.message }}</span></p>
-									{% endif %}
-								{% endfor %}	
-								<div id="new-messages-div"></div>
 							{% endfor %}
 						{% else %}
-						<h6>Find user profile to message</h6>
+							<h6>Find user profile to message</h6>
 						{% endif %}
+						{% for convo in messages %}
+							{% for message_data in convo.messages %}
+								{% if message_data.reciever == session['account']['username'] %}
+									<p class="messages-{{ convo.party }} messages" style="display: none;"><span class="bg-secondary" style="border-radius: 1px;">{{ message_data.message }}</span></p>
+								{% endif %}
+								{% if message_data.sender == session['account']['username'] %}
+									<p class="messages-{{ convo.party }} messages ml-auto" style="display: none;"><span class="bg-white" style="border-radius: 1px;">{{ message_data.message }}</span></p>
+								{% endif %}
+							{% endfor %}	
+							<div id="new-messages-div"></div>
+						{% endfor %}
 						{% if service_request[0]['time'] != 'null' %}
 							<div id="service-request-div">
 								{% for service in service_request %}
@@ -124,11 +123,6 @@
 										{% set party = service.sender %}
 									{% else %}
 										{% set party = service.reciever %}
-									{% endif %}
-									{% if messages[0]['party'] == "null" %}
-										<ul class="list-group convo-list-item" id="convo-past-list">
-											<a href="#" onclick="showConvo('{{ party }}')"><li class="list-group-item past-message-item">{{ party }}</li></a>
-										</ul>
 									{% endif %}
 									<div data-postid="{{ service.post_id }}" data-title="{{ service.title }}" class="card bg-white service-request service-request-{{ party }}">
 										<h6>Service Request</h6>

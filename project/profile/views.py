@@ -122,7 +122,31 @@ def home(username):
 		except Exception as e:
 			print(e)
 			scopeOfWorkList = [{ "sender": "null", "reciever":"null", "post_id":"null", "date": "null", "time" : "null", "title" : "null", "services_description" : "null" }]
+
+		# Handling Parties
+		partyList = []
+		try:
+			for serviceRequest in serviceRequestList:
+				print("serviceRequest")
+				if serviceRequest['time'] != 'null':		
+					if serviceRequest['reciever'] != session['account']['username']:
+						if serviceRequest['reciever'] not in partyList:
+							partyList.append(serviceRequest['reciever'])
+					elif serviceRequest['sender'] != session['account']['username']:
+						if serviceRequest['sender'] not in partyList:
+							partyList.append(serviceRequest['sender'])
+			for message in frontendMessagseList:
+				print("message")
+				print(message)
+				if message['time'] != 'null':
+					if message['party'] not in partyList:
+						partyList.append(message['party'])
+		except Exception as e:
+			print(e)
+			print('no parties')
+
 		userPostList = []
+
 		try:
 			for post in postsData:
 				print("efeferfdfpost")
@@ -135,9 +159,9 @@ def home(username):
 			print("e")
 			print(e)
 
-		print("frontendMessagseList")
-		print(frontendMessagseList)
-		return render_template('profile/profile.html',viewing=False, title=title, messages=frontendMessagseList, service_request=serviceRequestList, scope_of_work=scopeOfWorkList, posts=userPostList)
+		print("partyList")
+		print(partyList)
+		return render_template('profile/profile.html',viewing=False, title=title, messages=frontendMessagseList, parties=partyList, service_request=serviceRequestList, scope_of_work=scopeOfWorkList, posts=userPostList)
 	else:
 		# Viewing a profile
 		print('xbase')
