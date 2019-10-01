@@ -31,8 +31,6 @@ def home(username):
 		# Getting database
 		usersData = dict(database.child("users").get().val())
 
-		postsData = dict(database.child("posts").get().val())
-
 	except Exception as e:
 		usersData = None
 		postsData = None
@@ -148,9 +146,9 @@ def home(username):
 		userPostList = []
 
 		try:
-			for post in postsData:
-				print("efeferfdfpost")
-				postDict = postsData[post]
+			postHistory = database.child("users").child(uid).child("history").child("posts").get().val()
+			for post in postHistory:
+				postsDict = dict(database.child("posts").child(post).get().val())
 				print(postDict)
 				if postDict['username'] == username:
 					userPostList.append(postDict)
@@ -187,12 +185,18 @@ def home(username):
 				title = username + " - FixMyKix"
 				userPostList = []
 				try:
-					for post in postsData:
-						if post['username'] == username:
-							userPostList.append(post)
+					posts = usersData[user]['history']['posts']
+					for post in posts:
+						print(post)
+						postDict = dict(database.child("posts").child(post).get().val())
+						print(postDict)
+						if postDict['username'] == username:
+							userPostList.append(postDict)
+							print(userPostList)
 				except Exception as e:
+					print("e")
 					print(e)
-					print('not post')
+
 				if setup_complete == True:
 					return render_template("profile/profile.html", viewing=True, title=title, email=email, username=username, number_of_transactions=number_of_transactions, rating=rating, city=city, posts=userPostList, profile_pic_url=profile_pic_url) 
 				else:

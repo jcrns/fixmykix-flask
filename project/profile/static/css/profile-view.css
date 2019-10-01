@@ -19,3 +19,9 @@
 #post-card a {
 	color: #000;
 }
+#posts-row {
+	min-height: 50vh;
+}
+.posts-imgs {
+	max-height: 100px;
+}

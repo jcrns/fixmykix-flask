@@ -115,18 +115,22 @@
 				</div>
 			</div>
 			<br>
-			<div class="row">
-				{% if not posts %}
-					<h1>No Posts</h1>
-				{% endif %}
-				{% for post in posts %}
-					<div class="card" id="post-card">
-						<p>{{ post.shoe_name }}</p>
-						<img src="{{ post.post_pic_url }}">
-						<h6>${{ post.cost }}</h6>
-						<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
-					</div>
-				{% endfor %}
+			{# Posts #}
+			<div class="container-fluid" id="posts-row">
+				<h3>Posts</h3>
+				<div class="row">
+					{% if not posts %}
+						<h1>No Posts</h1>
+					{% endif %}
+					{% for post in posts %}
+						<div class="card" id="post-card">
+							<p>{{ post.shoe_name }}</p>
+							<img src="{{ post.post_pic_urls[0] }}" class="posts-imgs">
+							<h6>${{ post.cost }}</h6>
+							<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
+						</div>
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	{% endif %}
