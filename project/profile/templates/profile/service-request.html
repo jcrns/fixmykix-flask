@@ -1,0 +1,19 @@
+{% extends "header.html" %}
+{% block content %}
+	<div class="container-fluid">
+		<h1>Custom Request Services</h1>
+		<form method="POST" action="{{ url_for('api.serviceRequestPostApi') }}">
+		<h3>From: {{ session['account']['username'] }}</h3>
+		<p>
+			<span class="h3">To: </span>
+			{% if username %}
+				<input type="text" name="username" value="{{ username }}">
+			{% else %}
+				<input type="text" name="username" value="">
+			{% endif %}
+		</p>
+		<textarea cols="30" rows="10" placeholder="Description of what is Needed done to shoe. What is wrong with the shoe?" name="description"></textarea>
+		<p><input type="submit" class="btn btn-outline-success" value="Send Service Request"></p>
+		</form>
+	</div>
+{% endblock %}

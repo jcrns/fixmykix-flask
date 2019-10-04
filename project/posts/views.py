@@ -50,6 +50,7 @@ def home(postId):
 
 				# Checking if post was requested
 				try:
+					print('\n\n\n\n\n\n')
 					requested = False
 					userInSession = session['user']
 					uid = userInSession['localId']
@@ -59,6 +60,8 @@ def home(postId):
 						serviceRequestPostId = serviceRequestDict['post_id']
 						if serviceRequestPostId == post_id:
 							requested = True
+					print('hhhh\n\n\n\n\n\n')
+
 				except Exception as e:
 					print("not signed in")
 					print(e)

@@ -41,9 +41,9 @@ def homepage():
 				break
 			print('user')
 			userData = getUsers[user]
-			print(userData['account']['username'])
-			print(userData['account']['setup_complete'])
 			if userData['account']['provider']['is_provider'] == True and userData['account']['setup_complete'] == True:
+				print(userData['account']['username'])
+				print(userData['account']['setup_complete'])
 				print('aaaa')
 				rating = int(getUsers[user]['account']['rating'])
 				sortRatingProvider.append(rating)
@@ -55,10 +55,11 @@ def homepage():
 			print(number)
 			# Looping again to find high ratings
 			for user in getUsers:
-				if getUsers[user]['account']['provider']['is_provider'] == True:
-					if getUsers[user]['account']['rating'] == number:
-						if getUsers[user] not in finalTopProvider:
-							finalTopProvider.append(getUsers[user])
+				userData = getUsers[user]
+				if userData['account']['provider']['is_provider'] == True and userData['account']['setup_complete'] == True:
+					if userData['account']['rating'] == number:
+						if userData not in finalTopProvider:
+							finalTopProvider.append(userData)
 	except Exception as e:
 		print(e)
 		print('no top providers')
@@ -78,7 +79,7 @@ def homepage():
 				creation = userData['account']['created_at']
 				timeNow = time()
 				timeDiff = timeNow - creation # In Seconds
-				if timeDiff > 864000:
+				if timeDiff > 25920000:
 					continue
 				print('aa')
 				timeList.append(creation)

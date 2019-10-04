@@ -51,8 +51,8 @@ def signupConsumer():
 
 		# Running auth function
 		#def createUserFunc(name, email, username, address, city, zip_code, description, business_name, password, background_info, about_brand_or_individual, clean_shoes, shoe_artist, describe_services, previous_work, questions_for_customers, examples_of_services):
-
-		finalizedData = createUserFunc(form.name.data, form.email.data, form.username.data, form.address.data, form.city.data, form.zip_code.data, 0, 0, form.password.data, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+		# name, email, username, address, city, zip_code, business_name, password, background_info, about_brand_or_individual, clean_shoes, shoe_artist, describe_services_1, previous_work_1, describe_services_2, previous_work_2, describe_services_3, previous_work_3, questions_for_customers, examples_of_services
+		finalizedData = createUserFunc(form.name.data, form.email.data, form.username.data, form.address.data, form.city.data, form.zip_code.data, 0, form.password.data, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 		if finalizedData == 'success':
 			flash(f'Account created! Sign in!', 'success')
 			return redirect(url_for('users.login')) 

@@ -136,7 +136,7 @@ def home(username):
 			for message in frontendMessagseList:
 				print("message")
 				print(message)
-				if message['time'] != 'null':
+				if message['messages']['time'] != 'null':
 					if message['party'] not in partyList:
 						partyList.append(message['party'])
 		except Exception as e:
@@ -148,7 +148,7 @@ def home(username):
 		try:
 			postHistory = database.child("users").child(uid).child("history").child("posts").get().val()
 			for post in postHistory:
-				postsDict = dict(database.child("posts").child(post).get().val())
+				postDict = dict(database.child("posts").child(post).get().val())
 				print(postDict)
 				if postDict['username'] == username:
 					userPostList.append(postDict)
@@ -209,3 +209,17 @@ def home(username):
 		# Redirecting user for unfound url
 		# flash('Url not found', 'text-danger')
 		return redirect(url_for('homepage.home'))
+
+@profile.route("/service-request", methods=['GET', 'POST'])
+def serviceRequest():
+	username = None
+	# Trying to get username if provided
+	try:
+		username = request.args['username']
+		print(username)
+	except Exception as e:
+		print(e)
+
+	return render_template('profile/service-request.html', username=username)
+
+

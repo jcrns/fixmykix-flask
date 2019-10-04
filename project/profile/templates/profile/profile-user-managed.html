@@ -124,7 +124,7 @@
 									{% else %}
 										{% set party = service.reciever %}
 									{% endif %}
-									<div data-postid="{{ service.post_id }}" data-title="{{ service.title }}" class="card bg-white service-request service-request-{{ party }}">
+									<div data-postid="{{ service.post_id }}" data-title="{{ service.title }}" data-id="{{ service.id }}" class="card bg-white service-request service-request-{{ party }}">
 										<h6>Service Request</h6>
 										<p>{{ service.title }}</p>
 										<small>{{ service.date }} {{ service.time }}</small>

@@ -110,6 +110,13 @@
 									<input type="submit" name="submit-message" id="submit-message" value="Send" class="btn btn-primary">
 								</p>
 							</form>
+							<a href="{{ url_for('profile.serviceRequest', username=username) }}" class="btn btn-outline-success">Ask for Services!</a>
+						{% else %}
+							<p id="message-input-p">
+								<input type="hidden" name="username-input" id="username-input" value="{{ username }}" placeholder="Username">
+								<input type="text" name="message-input" id="message-input" placeholder="Message">
+								<a href="{{ url_for('users.signupConsumer') }}" class="btn btn-primary">Send</a>
+							</p>
 						{% endif %}
 					</div>
 				</div>

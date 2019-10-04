@@ -166,20 +166,39 @@ def scopeOfWorkPost(postId, username, sender, servicesDescription):
 @api.route("/service-request-post-api", methods=['GET', 'POST'])
 def serviceRequestPostApi():
 	try:
+		# Getting username
+		sender = session['account']['username']
+		
+		# Custom service request
+		try:
+			description = request.form['description']
+			print(description)
+			print("description")
+			username = request.form['username']
+			if description == '':
+				return 'Enter description'
+			if username == '':
+				return 'Enter Username'
+			post = serviceRequestPost(0, username, sender, description)
+			flash(f'Sent!', 'success')
+			return redirect(url_for('profile.home', username=sender))
+		except Exception as e:
+			print(e)
+			print("Not custom request")
+
 		# Assigning variables equvilent to posted data
 		postId = request.form['post_id']
 		post = dict(database.child("posts").child(postId).get().val())
 		if post['post_id'] == postId:
 			username = post['username']
-
-		sender = session['account']['username']
-		post = serviceRequestPost(postId, username, sender)
+		description = "null"
+		post = serviceRequestPost(postId, username, sender, description)
 		return post
 	except Exception as e:
 		print(e)
 		return 'failed'
 
-def serviceRequestPost(postId, username, sender):
+def serviceRequestPost(postId, username, sender, description):
 	print("trying")
 	try:
 		users = dict(database.child("users").get().val())
@@ -194,17 +213,23 @@ def serviceRequestPost(postId, username, sender):
 
 		print(value)
 
-		# Creating title for service request
-		post = dict(database.child("posts").child(postId).get().val())
-		if post['post_id'] == postId:
-			print('sss')
-			shoeName = post['shoe_name']
-			shoeDescription = post['shoe_description']
-			shoeCost = post['cost']
-			if shoeName == '':
-				title = 'Shoe Cleaning' - str(shoeCost)
-			title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
-		print(value)
+		# Trying to get post info
+		try:
+			# Creating title for service request
+			post = dict(database.child("posts").child(postId).get().val())
+			if post['post_id'] == postId:
+				print('sss')
+				shoeName = post['shoe_name']
+				shoeDescription = post['shoe_description']
+				shoeCost = post['cost']
+				if shoeName == '':
+					title = 'Shoe Cleaning' - str(shoeCost)
+				title = shoeName + " - " + shoeDescription + " - $" + str(shoeCost)
+			print(value)
+		except Exception as e:
+			print("Failed getting post")
+			print(e)
+			title = 0
 
 		# Storing data in users history
 		for user in users:
@@ -212,7 +237,11 @@ def serviceRequestPost(postId, username, sender):
 				if users[user]['account']['setup_complete'] == True:
 					print(username)
 					print(sender)
-					serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title": title }
+					if title != 0:
+						serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title": title, "id" : serviceRequestId }
+					else:
+						serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title": description, "id" : serviceRequestId }
+
 					print(users[user]['history'])
 					print(users[user]['account'])
 					print("??gwrtg")
@@ -228,12 +257,18 @@ def serviceRequestPost(postId, username, sender):
 							count += 1
 						database.child("users").child(user).child("history").child("service_request").child(count).set(serviceRequestId)
 		print(value)
+		print("value")
 		# Storing data in recievers history
 		for user in users:
 			if users[user]['account']['username'] == sender:
 				if users[user]['account']['setup_complete'] == True:
-					serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : title }
+					if title != 0:
+						serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : title, "id" : serviceRequestId }
+					else:
+						serviceRequestDict = { "sender": sender, "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : description, "id" : serviceRequestId }
+
 					value = 'sent!'
+					print(users[user]['history']['service_request'])
 					if users[user]['history']['service_request'][0] == "null":
 						database.child("users").child(user).child("history").child("service_request").child(0).set(serviceRequestId)
 					else:
@@ -241,20 +276,42 @@ def serviceRequestPost(postId, username, sender):
 						for messageCount in users[user]['history']['service_request']:
 							count += 1
 						database.child("users").child(user).child("history").child("service_request").child(count).set(serviceRequestId)
+		if title != 0:
+			serviceRequestDict = { "sender": sender , "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : title, "id" : serviceRequestId }
+		else:
+			serviceRequestDict = { "sender": sender , "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : description, "id" : serviceRequestId }
 
-		serviceRequestDict = { "sender": sender , "reciever": username, "post_id": postId, "date": formatedDateNow, "time" : formatedTimeNow, "title" : title }
 		database.child("service_request").child(serviceRequestId).set(serviceRequestDict)
 		print("\n\n\n\n\n\n")
+		print("erfwerwergwergwe\n\n\n\n\n\n")
 		print(value)
 		return value
 	except Exception as e:
-		print("e")
+		print("esdsdsdsd")
 		print(e)
 		return 'failed'
 
 
+# Deleting service request 
+@api.route("/service-request-decline-api", methods=['GET', 'POST'])
+def serviceRequestDeclineApi():
+	try:
+		print('saas')
+		service_request_id = request.form['id']
+		delete = serviceRequestDecline(service_request_id)
+		print(delete)
+		return jsonify(delete)
+	except Exception as e:
+		print(e)
+		return jsonify('failed')
 
-
+def serviceRequestDecline(service_request_id):
+	try:
+		database.child("service_request").child(service_request_id).remove()
+		return 'success'
+	except Exception as e:
+		print(e)
+		return 'failed'
 
 
 @api.route("/signup-api", methods=['GET', 'POST'])
@@ -319,6 +376,16 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 	try:
 		print("email")
 		print("password")
+		# Creating user in firebase
+		user = authe.create_user_with_email_and_password(email,password)
+
+
+		# Assigning uid which will be used to create paths in database
+		uid = user['localId']
+
+		image_urls_1 = []
+		image_urls_2 = []
+		image_urls_3 = []
 
 		# Assigning json data to variable to return to database
 		if about_brand_or_individual != 0 and business_name != 0:
@@ -333,8 +400,6 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				shoe_artist = True
 			if clean_shoes == False and shoe_artist == False:
 				return 'failed'
-
-			image_urls_1 = []
 			
 			# Importing previous work
 			if previous_work_1[0] != None:
@@ -352,7 +417,6 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 				print('eee')
 				return 'Add photos of previous work'
 
-			image_urls_2 = []
 			if previous_work_2[0] != None:
 				for pic in previous_work_2:	
 					try:
@@ -366,7 +430,6 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 			else:
 				return 'Add photos of previous work'
 			
-			image_urls_3 = []
 			if previous_work_3[0] != None:
 				for pic in previous_work_3:	
 					try:
@@ -380,13 +443,6 @@ def createUserFunc(name, email, username, address, city, zip_code, business_name
 			else:
 				return 'Add photos of previous work'
 			
-			# Creating user in firebase
-			user = authe.create_user_with_email_and_password(email,password)
-
-
-			# Assigning uid which will be used to create paths in database
-			uid = user['localId']
-
 			userAccount = { "name" : name, "email" : email, "username" : username, "address" : address, "city": city , "business_name" : business_name, "provider": { "is_provider": True, "clean_shoes": clean_shoes, "shoe_artist": shoe_artist, "background_info": background_info, "about_brand_or_individual": about_brand_or_individual, "accepted": False, "describe_services_1" : describe_services_1, "describe_services_2" : describe_services_2, "describe_services_3" : describe_services_3, "previous_work_1" : image_urls_1, "previous_work_2" : image_urls_2, "previous_work_3" : image_urls_3, "questions_for_customers" : questions_for_customers, "examples_of_services" : examples_of_services }, "setup_complete": False, "number_of_transactions": 0, "rating": 0, "created_at": time(), "profile_pic_url": "null", "is_admin": False }
 		else:
 			print("user not provider")
