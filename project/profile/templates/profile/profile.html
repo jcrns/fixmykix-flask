@@ -1,0 +1,144 @@
+{% extends "header.html" %}
+{% block content %}
+	{# NOT VIEWING #}
+	{% if viewing == False %}
+		{% if session['account']['provider']['is_provider'] == True %}
+			{% if session['account']['setup_complete'] == False %}
+				<link href="{{ url_for('profile.static', filename = 'css/setup-provider.css') }}" rel="stylesheet">
+				<form method="POST" action="{{ url_for('api.updateSetupApi') }}" enctype="multipart/form-data">
+					<div class="container-fluid">
+						<h6>Finish Your Application</h6>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+								<div class="card rounded-0" id="background-info"> 
+									<h5><b>BACKGROUND INFO</b></h5>
+									<textarea class="form-control" cols="20" rows="13" name="background_info"></textarea>
+								</div>
+								<div class="card rounded-0">
+									<h5><b>What info do you need from your customers to do your best work?</b></h5>
+									<textarea class="form-control" cols="20" rows="13" name="questions_for_customers"></textarea>
+									<h5><b>Choose Profile Pic</b></h5>
+									<input type="file" name="profile_pic" accept="image/*">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+								<div class="card rounded-0" id="write-about-brand">
+									<h5><b>WRITE A BIO ABOUT YOURSELF/ BRAND.</b></h5>
+									<textarea class="form-control" cols="20" rows="10" name="write_about_brand"></textarea>
+								</div>
+								<div class="card rounded-0" id="list-of-services">
+									<h5><b>List services that you provide?</b></h5>
+									<p><textarea class="form-control" cols="20" rows="8" name="describe_services"></textarea></p>
+								</div>
+								<div class="card rounded-0" id="provided-service">
+									<h5><b>WHAT SERVICES DO YOU PROVIDE</b></h5>
+									<p><input type="checkbox" id="clean-shoes" name="clean_shoes"> I Clean Shoes</p>
+									<p><input type="checkbox" id="shoe-artist" name="shoe_artist"> I'm a Shoe Artist</p>
+									<small>Note: You can do either but check which service you do best.</small>
+								</div>
+<!-- 								<div class="card rounded-0" id="examples-of-services">
+									<h5><b>Describe 3 examples of your previous work</b></h5>
+									<textarea class="form-control" cols="20" rows="10" name="examples_of_services"></textarea>
+									<h5><b>Show Previous Work</b></h5>
+									<input type="file" name="previous_work" accept="image/*" multiple>
+								</div> -->
+							</div>
+						</div>
+						<h3>Describe 3 examples of your previous work</h3>
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 card">
+								Example 1
+								<div>
+									<textarea class="form-control" cols="10" rows="10" name="examples_of_services_1"></textarea>
+								</div>
+								Upload 3 pictures of your previous work
+								<input type="file" name="previous_work_1" accept="image/*" multiple>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 card">
+								Example 2
+								<div>
+									<textarea class="form-control" cols="10" rows="10" name="examples_of_services_2"></textarea>
+								</div>
+								Upload 3 pictures of your previous work
+								<input type="file" name="previous_work_2" accept="image/*" multiple>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 card">
+								Example 3
+								<div>
+									<textarea class="form-control" cols="10" rows="10" name="examples_of_services_3"></textarea>
+								</div>
+								Upload 3 pictures of your previous work
+								<input type="file" name="previous_work_3" accept="image/*" multiple>
+							</div>
+						</div>
+						<button class="btn btn-dark" id="update-setup-button">SAVE & SETUP MY SHOP</button>
+					</div>
+				</form>
+				<script type="text/javascript" src="{{ url_for('profile.static', filename='js/setup_provider.js') }}"></script>
+			{% else %}
+				{% include 'profile/profile-user-managed.html'%}
+			{% endif %}
+		{% else %}
+			{% include 'profile/profile-user-managed.html'%}
+		{% endif %}
+	{# IS VIEWING #}
+	{% else %}
+		<link href="{{ url_for('profile.static', filename = 'css/profile-view.css') }}" rel="stylesheet">
+		<div class="container-fluid">
+			<h6>{{ email }}</h6>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+					<img src="{{ profile_pic_url }}" id="profile-pic">
+				</div>
+				<div class="col-10">
+					<div class="card rounded-0" id="profile-info-section">
+						<div class="row">
+							<div id="grouped-profile-info">
+								<p>@{{ username }}</p>
+								<p>Made {{ number_of_transactions }} Transactions</p>
+								<p>{{ city }}</p>
+							</div>
+							<div class="text-right">
+								<p>{{ rating }} star rating</p>
+							</div>
+						</div>
+						{% if session['account'] %}
+							<form method="POST" action="{{ url_for('api.newMessageAPI') }}">
+								<p id="message-input-p">
+									<input type="hidden" name="username-input" id="username-input" value="{{ username }}" placeholder="Username">
+									<input type="text" name="message-input" id="message-input" placeholder="Message">
+									<input type="submit" name="submit-message" id="submit-message" value="Send" class="btn btn-primary">
+								</p>
+							</form>
+							<a href="{{ url_for('profile.serviceRequest', username=username) }}" class="btn btn-outline-success">Ask for Services!</a>
+						{% else %}
+							<p id="message-input-p">
+								<input type="hidden" name="username-input" id="username-input" value="{{ username }}" placeholder="Username">
+								<input type="text" name="message-input" id="message-input" placeholder="Message">
+								<a href="{{ url_for('users.signupConsumer') }}" class="btn btn-primary">Send</a>
+							</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<br>
+			{# Posts #}
+			<div class="container-fluid" id="posts-row">
+				<h3>Posts</h3>
+				<div class="row">
+					{% if not posts %}
+						<h1>No Posts</h1>
+					{% endif %}
+					{% for post in posts %}
+						<div class="card" id="post-card">
+							<p>{{ post.shoe_name }}</p>
+							<img src="{{ post.post_pic_urls[0] }}" class="posts-imgs">
+							<h6>${{ post.cost }}</h6>
+							<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

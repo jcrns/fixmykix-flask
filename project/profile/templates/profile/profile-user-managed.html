@@ -1,0 +1,211 @@
+{% block content %}
+	<link href="{{ url_for('profile.static', filename = 'css/profile-managed.css') }}" rel="stylesheet">
+	<input type="hidden" id="username" value="{{ session['account']['username'] }}">
+	<div class="container-fluid">
+		<h6>{{ session['account']['email'] }}</h6>
+		<div class="row">
+			<div class="col-12">
+				<div class="card rounded-0" id="large-card">
+					<div class="row">
+						<img src="{{ session['account']['profile_pic_url'] }}" id="profile-pic">
+						<div id="info-div">
+							<p><b>@{{ session['account']['username'] }}</b></p>
+							<p>Made {{ session['account']['number_of_transactions'] }} Transactions</p>
+							<p>{{ session['account']['rating'] }} star rating</p>
+							<p>{{ session['account']['city'] }}</p>
+						</div>
+						<div class="text-right">
+							<button class="btn btn-light" data-toggle="modal" data-target="#change-info-modal">Edit Profile</button>
+						</div>
+						<div id="user-description">
+							{% if session['account']['description'] != 'null' %}
+								<p>{{ session['account']['description'] }}</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# Change Info #}
+		<div class="modal fade" id="change-info-modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Change Profile</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form method="POST" enctype="multipart/form-data" action="{{ url_for('api.consumerAccountUpdateApi') }}">
+							<p>City: <input type="text" name="location" value="{{ session['account']['city'] }}"></p>
+							<p><input type="file" name="profile_pic" accept="image/*"></p>
+							<p><input type="submit" class="btn btn-primary" value="Change"></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+				<div class="card" id="sidebar-nav">
+					<p class="profile-sidebar" id="anchor-tag-messages"><span><a href="#">Messages</a></span></p>
+					<p class="profile-sidebar" id="anchor-tag-transactions"><span><a href="#">Transactions</a></span></p>
+					<p class="profile-sidebar" id="anchor-tag-settings"><span><a href="#">Settings</a></span></p>
+					{% if session['account']['provider']['is_provider'] == True %}
+						<p class="profile-sidebar" id="anchor-tag-posts"><span><a href="#">Posts</a></span></p>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10" id="main-div">
+				<div class="card" id="transaction-div">
+					<h5>Transaction History</h5>
+					<table id="transactions-history-table" class="table">
+						<thead>
+						    <tr class="bg-primary text-white">
+						        <th scope="col">Title of Transaction</th>
+						        <th scope="col">Description</th>
+						        <th scope="col">Date</th>
+						        {% if session['account']['provider']['is_provider'] == True %}
+									<th scope="col">Client</th>
+								{% else %}
+									<th scope="col">Provider</th>
+								{% endif %}
+						    </tr>
+					  	</thead>
+					  	<tbody>
+					  		{% if scope_of_work[0]['sender'] != 'null' %}
+					  			{% for scope in scope_of_work %}
+									{% if scope.reciever == session['account']['username'] %}
+										{% set party = scope.sender %}
+									{% else %}
+										{% set party = scope.reciever %}
+									{% endif %}
+									<tr class="bg-light">
+										<td>{{ scope.title }}</td>
+										<td>{{ scope.services_description }}</td>
+										<td>{{ scope.date }} {{ scope.time }}</td>
+										<td>{{ party }}</td>
+									</tr>
+								{% endfor %}
+							{% endif %}
+					  	</tbody>
+					</table>
+				</div>
+				<div id="messages">
+					<div class="card" id="view-messages">
+						<h5 id="message-title-p">Messages</h5>
+						{% if parties|length > 0 %}
+							{% for party in parties %}
+								<ul class="list-group convo-list-item" id="convo-past-list">
+									<a href="#" onclick="showConvo('{{ party }}')"><li class="list-group-item past-message-item">{{ party }}</li></a>
+								</ul>
+							{% endfor %}
+						{% else %}
+							<h6>Find user profile to message</h6>
+						{% endif %}
+						{% for convo in messages %}
+							{% for message_data in convo.messages %}
+								{% if message_data.reciever == session['account']['username'] %}
+									<p class="messages-{{ convo.party }} messages" style="display: none;"><span class="bg-secondary" style="border-radius: 1px;">{{ message_data.message }}</span></p>
+								{% endif %}
+								{% if message_data.sender == session['account']['username'] %}
+									<p class="messages-{{ convo.party }} messages ml-auto" style="display: none;"><span class="bg-white" style="border-radius: 1px;">{{ message_data.message }}</span></p>
+								{% endif %}
+							{% endfor %}	
+							<div id="new-messages-div"></div>
+						{% endfor %}
+						{% if service_request[0]['time'] != 'null' %}
+							<div id="service-request-div">
+								{% for service in service_request %}
+									{% if service.reciever == session['account']['username'] %}
+										{% set party = service.sender %}
+									{% else %}
+										{% set party = service.reciever %}
+									{% endif %}
+									<div data-postid="{{ service.post_id }}" data-title="{{ service.title }}" data-id="{{ service.id }}" class="card bg-white service-request service-request-{{ party }}">
+										<h6>Service Request</h6>
+										<p>{{ service.title }}</p>
+										<small>{{ service.date }} {{ service.time }}</small>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+						{% if scope_of_work[0]['sender'] != 'null' %}
+							<br>
+							<div id="scope-of-work-div">
+								{% for scope in scope_of_work %}
+									{% if scope.reciever == session['account']['username'] %}
+										{% set party = scope.sender %}
+									{% else %}
+										{% set party = scope.reciever %}
+									{% endif %}
+									<div data-postid="{{ scope.post_id }}" data-title="{{ scope.title }}" class="card bg-white scope-of-work scope-of-work-{{ party }}">
+										<h6>Request Accepted</h6>
+										<p>{{ scope.title }}</p>
+										<p>{{ scope.services_description }}</p>
+										<small>{{ scope.date }} {{ scope.time }}</small>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+						<p class="send-message-form-party mt-auto" id="send-message-form" style="display: none; bottom: 0;">
+							<input type="hidden" name="username-input" id="username-input-party">
+							<input type="text" name="message-input" id="message-input-party" placeholder="Message">
+							<input type="submit" name="submit-message" id="submit-message-party" value="Send" class="btn btn-primary">
+						</p>
+						<a href="#" onclick="backToMessages()" id="back-from-messages"><img src="https://img.icons8.com/windows/50/000000/circled-left-2.png"></a>
+					</div>
+					{# Special Obj #}
+					<div class="card mx-auto" id="request-obj">
+
+						{% if session['account']['provider']['is_provider'] == True %}
+							<h5 class="text-center">Waiting for service request</h5>
+						{% else %}
+							<h5>Service Request</h5>
+							<p id="service-request-username"></p>
+							<select id="service-request-post-select" onchange="serviceRequestSelected()"></select>
+							<p class="text-center" id="service-selected-link"></p>
+							<button class="btn btn-outline-primary" id="service-btn-send">Send</button>
+						{% endif %}
+					</div>
+					{% if session['account']['provider']['is_provider'] == True %}				
+						<div class="card" id="view-posts">
+							<div>
+								<h5>Posts</h5>
+								{% for post in posts %}
+									<div class="card" id="post-card">
+										{% if post.shoe_name != '' %}
+											<p><a href="/post/{{ post.post_id }}" class="text-dark">{{ post.shoe_name }}</a></p>
+										{% else %}
+											<p><a href="/post/{{ post.post_id }}" class="text-dark">Shoe Clean</a></p>
+										{% endif %}
+										{% if post.post_pic_urls[0] != '' %}
+											<a href="/post/{{ post.post_id }}"><img src="{{ post.post_pic_urls[0] }}" ></a>
+										{% endif %}
+										<h6>${{ post.cost }}</h6>
+										<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
+									</div>
+								{% endfor %}
+								<br>
+								<a href="{{ url_for('explore.newPost') }}" class="btn btn-primary">New Post</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+				<div class="card" id="settings-div">
+					<div>
+						<h5>Settings</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{ url_for('profile.static', filename='js/profile-managed.js') }}"></script>
+	{% if session['account']['provider']['is_provider'] == True %}
+		<script type="text/javascript" src="{{ url_for('profile.static', filename='js/profile-provider.js') }}"></script>
+	{% else %}
+		<script type="text/javascript" src="{{ url_for('profile.static', filename='js/profile-consumer.js') }}"></script>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "header.html" %}
+{% block content %}
+	<link href="{{ url_for('posts.static', filename = 'css/post.css') }}" rel="stylesheet">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<div class="card rounded-0">
+				<p class="display-2">{{ shoe_name }}</p>
+				<h6>{{ city }}</h6>
+				<img src="{{ post_pic_urls[0] }}" class="post-pic">
+				{% if post_pic_urls|length > 1 %}
+					<div class="row">
+						{% for pic in post_pic_urls %}
+							<div class="card">
+								<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small"></a>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+			<p>
+				<h4><b>$ {{ cost }}</b> <span id="username"><a class="text-dark" href="/profile/{{ username }}">{{ username }}</a></span></h4>
+				<p>{{ shoe_description }}</p>
+				{% if session['account'] %}
+					{% if session['account']['provider']['is_provider'] == False %}
+						{% if requested == False %}
+							<button class="btn btn-primary btn-lg" id="get-now-btn">Get Now</button>
+							<script type="text/javascript" src="{{ url_for('posts.static', filename='js/service-request-post.js') }}"></script>
+						{% elif requested == True %}
+							<button type="button" class="btn btn-secondary btn-lg" disabled>Requested</button>
+						{% endif %}
+					{% endif %}
+				{% endif %}
+			</p>
+		</div>
+		{# Comments #}
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<div class="card rounded-0">
+				<form method="POST" action="{{ url_for('api.postCommentApi') }}" id="post-comment-form">
+					<input type="hidden" name="post_id" value="{{ post_id }}" id="post-id">
+					<p>
+						<input type="text" name="post_comment" placeholder="Comment" id="post-comment-input">
+						<input type="submit" class="btn btn-primary rounded-0" id="comment-submit-button" value="Send">
+					</p>
+				</form>
+				{% for comment in comments %}
+					<p class="post-comments-username-date">
+						<span><a href="/profile/{{ comment.username }}"><b>{{ comment.username }}</b></a></span>
+						<span><small>{{ comment.date }}</small></span>
+					</p>
+					<p class="post-comment-text">{{ comment.comment }}</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{ url_for('posts.static', filename='js/post.js') }}"></script>
+{% endblock %}

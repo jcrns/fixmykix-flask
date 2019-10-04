@@ -1,0 +1,93 @@
+{% extends "header.html" %}
+{% block content %}
+	<link href="{{ url_for('about.static', filename = 'css/explore.css') }}" rel="stylesheet">
+
+	<div class="container-fluid">
+        <div class="row jumbotron">
+            <div class="col-6">
+                <div>
+                    <h2>What is FixMyKix?</h2>
+                    <br>
+                    <p>
+                        Fixmykix is an online marketplace for Shoe Restoration and Shoe Customization. Promoting creative entrepreneurship through custom fashion, while also highlighting the value of restoration in today's modern world plagued with fast fashion. The idea of Fixmykix was born when James Green, Co-Founder of Fixmykix, was restoring shoes at the age of 15 as a side hustle to keep money in his pockets. Around this time James joined a program called The Hidden genius Project. The Hidden Genius Project trains and mentors black male youth in Technology Creation, Entrepreneurship, and Leadership skills to transform their lives and communities. In this 15 Month program James was encouraged to create an app, He wasn't sure what type of app to build until one day his Co-Founder Sean Valentine had the idea of an online marketplace for Shoe Restoration and Customization and said to James,  “You can’t clean every pair of shoes yourself James, But every pair of shoes can be cleaned.”  After having that conversation James set on a journey to figuring out how he could bring Fixmykix to life.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-6">
+                <img class="img-fluid float-right ml-5 mt-5" src="{{ url_for('about.static', filename = 'img/logo2.jpg') }}" rel="stylesheet">
+            </div>
+
+        </div>
+		<div class="row jumbotron">
+            <div class="col-6">
+                <div>
+                    <h2>What is Shoe Restoration?</h2>
+                    <br>
+                    <p>
+                        You know those worn down shoes sitting under your bed that your about to throw away? DON’T! 300 Million pairs of shoes are thrown out to sit in the landfill each year and they don't need to be. Shoe Restoration is the process of repairing a pair of shoes to a “like new” condition. Shoe Restoration has always been around, Our grandparents would walk there “Sunday’s Best” to the local Cobbler down the street, But, like many things the trade is evolving. In the most recent years Shoe Restoration has been used to preserve the life of Sneakers. Whether its a historical pair of 1985 Jordan 1’s or just your favorite pair of Vans, Modern day Cobblers have been leveraging social media to run their business rather than the traditional brick & mortar. Fixmykix is making these Modern day Cobblers we call Shoe Restoration Technicians services more accessible to you!
+                    </p>
+		        </div>
+            </div>
+
+            <div class="col-6">
+                <img class="img-fluid float-right ml-5" src="{{ url_for('about.static', filename = 'img/shoecleaningphoto1.jpg') }}" rel="stylesheet">
+            </div>
+        </div>
+		<div class="row jumbotron">
+            <div class="col-6">
+                <div>
+                    <h2>What is Shoe Restoration?</h2>
+                    <br>
+                    <p>
+                        Shoe Custom culture has been around since back to early hip hop and punk rock era of the 1980s, a form of self expression among the misunderstood young people. Now more than ever our world is experiencing a generation of young people that use fashion as a medium for self expression. Shoe Customization is another art form, using a pair of shoes as a canvas and creating your own vision for a shoe. Making a shoe yours by creating a pair of shoes that resembles who you are. These services are already out there, Fixmykix is making it more accessible for anyone with access.
+                    </p>
+                </div>
+		    </div>
+
+            <div class="col-6">
+                <img class="img-fluid float-right ml-5" src="{{ url_for('about.static', filename = 'img/shoecleaningphoto2.jpg') }}" rel="stylesheet">
+            </div>
+        </div>
+
+    <div class="row jumbotron">
+            <div class="col-4 text-center">
+                <div>
+                    <img class="img-fluid" src="{{ url_for('about.static', filename = 'img/JamesHeadshot.jpg') }}" rel="stylesheet" style="max-height: 40vh;">
+                    <h2>James Green</h2>
+                    <br>
+                    <p>
+                        James Green is 19 years old, is currently taking a break from the College of Alameda to focus on running Fixmykix full time as the CEO. James is committed to taking Fixmykix to the next level is committed to the Company until either Fixmykix fails or takes off. James has always been an entrepreneur and nothing makes him happier than to learn this game of capitalism so he can share the game with the community he is from which is East Oakland, CA. James has always had a vision for a more equitable world where everyone has an opportunity to do business and enjoy life. Fixmykix is his first project to propel him on the journey to changing the world.
+                    </p>
+
+                </div>
+            </div>
+
+        <div class="col-4 text-center">
+                <div>
+                    <img class="img-fluid" src="{{ url_for('about.static', filename = 'img/KevinHeadshot.png') }}" rel="stylesheet" style="max-height: 40vh;">
+                    <h2>Kevin Butler</h2>
+                    <br>
+                    <p>
+                        Kevin Butler is a full-time student and employee at Kaiser Permanente. His job title is Systems Support Apprentice and he works to create automation tools for his fellow coworkers. He is currently pursuing his AA degree in Computer Science at Laney College. He plans on transferring to a California state university and getting his bachelor's in Computer Engineering. Kevin is also an alumni youth educator for the Hidden Genius Project. He enjoys using his free time to chill with his friends, read books and play video games. His long-term goal is to start his own business in the tech industry.
+                    </p>
+
+                </div>
+            </div>
+
+        <div class="col-4 text-center">
+                <div>
+                    <img class="img-fluid" src="{{ url_for('about.static', filename = 'img/JaydenHeadshot.jpeg') }}" rel="stylesheet" style="max-height: 40vh;">
+                    <br>
+                    <h2>Jayden Cummings</h2>
+                    <br>
+                    <p>
+                        Jayden Cummings is a 16-year-old student high school student at Emeryville High school. He is involved in many extracurricular activities such as the NAACP Berkeley, Albany, and Emeryville youth council and an activist for the Energy Convertors program. He is also a recent alumni of The Hidden Genius Project. He plans to go to a UC or CSU after high school. He wants to stay in the Bay Area after high school and wants to make significant changes in the community that raised him. He enjoys playing basketball and hanging with friends. His long-term goal is to become a person who changes the world for the better.
+                    </p>
+
+                </div>
+            </div>
+
+	</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>FixMyKix – Where the Kicks get Fixed.</title>
+        {% endif %}
+
+        <!-- Jquery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="crossorigin="anonymous"></script>
+
+        <!-- Bootstrap CSS and JS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+        <link href="{{ url_for('static', filename = 'css/header.css') }}" rel="stylesheet">
+    </head>
+    <body>
+    	<style type="text/css">
+            /*Body Styling*/
+            * {
+                -webkit-overflow-scrolling: touch;
+            }
+            html,body
+            {
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+                overflow-x: hidden; 
+            }
+        	.nav-link-header {
+        		color: #000;
+        	}
+        	#logo-header {
+        		width: 100px;
+        		height: 40px;
+        	}
+            .footer-social-logos {
+                width: 50px;
+                height: 50px;
+            }
+            #footer {
+                border-top: 1px solid black;
+            }
+        </style>
+        <!-- responsive Navigation Bar -->
+        <nav class="navbar navbar-expand-md navbar-default sticky-top text-center" style="background:#1F7558; color: #e8eff0;">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapse_target" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><img src="https://img.icons8.com/material/24/000000/menu.png"></span>
+            </button>
+            <a href="{{ url_for('explore.homepage') }}#" class="navbar-brand nav-link-header"><img id="logo-header" src="{{ url_for('about.static', filename = 'img/logo.jpg') }}"></a>
+            {% if session['account'] %}
+            <a href="{{ url_for('profile.home', username=session['account']['username']) }}"><span class="font-weight-bold" style="color: #212121">{{ session['account']['username'] }}</span></a>
+            {% endif %}
+            <!--<input class="float-center" type="text" name="search-bar" id="search-bar" style="margin-left: 100px;" placeholder="Search">
+            <input class="float-center btn btn-success" type="button" name="search-button" id="search-button" value="Go"> -->
+            <div class="collapse navbar-collapse" id="collapse_target">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    	<a id="explore-button" class="nav-link nav-link-header pr-5" href="{{ url_for('explore.home') }}">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                    	<a id="about-button" class="nav-link nav-link-header pr-5" href="{{ url_for('about.home') }}">About</a>
+                    </li>
+                    {% if session['account'] %}
+    	                <li>
+    	                	<a id="logout-button" class="nav-link nav-link-header pr-5" href="{{ url_for('users.logout') }}">Logout</a>
+    	                </li>
+    	            {% else %}
+    	                <li class="nav-item">
+    	                	<a id="login-button" class="nav-link nav-link-header pr-5" href="{{ url_for('users.login') }}">Login</a>
+    	                </li>
+    	                <li>
+    	                	<a id="register-button" class="nav-link nav-link-header font-weight-bold pr-3" href="{{ url_for('users.signupConsumer') }}">Sign Up</a>
+    	                </li>
+    	            {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {# Messages #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }} bg-light"> {{ message|capitalize }} </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {# All included content #}
+        {% block content %} {% endblock %}
+
+        {# footer for website #}
+        <br>
+        <footer class="page-footer bg-light" id="footer">
+            <div class="container-fluid text-center text-md-left">
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-3">
+
+                        <h5 class="text-uppercase">FixMyKix.com</h5>
+                        <p>FixmyKix is a online marketplace for the service of Shoe Restoration and Customization. Promoting creative entrepreneurship and reducing shoe waste in our landfills. </p>
+
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-right mt-3">
+                        <a href="https://instagram.com/fixmykixx" target="_blank"><img class="footer-social-logos" src="{{ url_for('about.static', filename = 'img/instagram.png') }}"></a>
+                        <br>
+                        <br>
+                        <div class="footer-copyright">® 2019 Trademark: Fixmykix</div>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+    </body>
+</html>

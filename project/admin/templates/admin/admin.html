@@ -1,0 +1,135 @@
+{% block content %}
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>FixMyKix - Early Registration</title>
+
+			<!-- Jquery -->
+		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+		    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="crossorigin="anonymous"></script>
+
+		    <!-- Bootstrap CSS and JS -->
+		    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		    <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+			<link href="{{ url_for('admin.static', filename = 'css/admin.css') }}" rel="stylesheet">
+		</head>
+		<body>
+			<style type="text/css">
+		        /*Body Styling*/
+		        * {
+		            -webkit-overflow-scrolling: touch;
+		        }
+		        html,body
+		        {
+		            width: 100%;
+		            height: 100%;
+		            margin: 0px;
+		            padding: 0px;
+		            overflow-x: hidden; 
+		        }
+		    	.nav-link-header {
+		    		color: #000;
+		    	}
+		    	#logo-header {
+		    		width: 100px;
+		    		height: 40px;
+		    	}
+		    </style>
+		    {# Messages #}
+		    {% with messages = get_flashed_messages(with_categories=true) %}
+		        {% if messages %}
+		            {% for category, message in messages %}
+		                <div class="alert {{ category }} bg-light"> {{ message|capitalize }} </div>
+		            {% endfor %}
+		        {% endif %}
+		    {% endwith %}
+		    <div class="container-fluid">
+		    	<div class="col-12">
+		    		<h2>Application Acceptance 	<b>{{ application_list|length }}</b></h2>
+		    		<div id="application-acceptence">
+						{% for user in application_list %}
+							<div class="card">
+								{% set username = user['account']['username'] %}
+				    			<h5><b>Email: </b>{{ user['account']['email'] }}</h5>
+				    			<p><b>Username: </b>{{ user['account']['username'] }}</p>
+				    			<p><b>Description: </b>{{ user['account']['description'] }}</p>
+				    			<p><b>About Individual/Brand: </b>{{ user['account']['provider']['about_brand_or_individual'] }}</p>
+				    			<p><b>Background Info: </b>{{ user['account']['provider']['background_info'] }}</p>
+		    					<p><b>Description of Services: </b>{{ user['account']['provider']['describe_services'] }}</p>
+								{% if user['account']['provider']['clean_shoes'] == True and user['account']['provider']['shoe_artist'] == True %}
+		    						<p>Both</p>
+		    					{% elif user['account']['provider']['clean_shoes'] == True %}
+		    						<p><b>Shoe Design/Cleans Shoes: </b>Cleans Shoes</p>
+		    					{% elif user['account']['provider']['shoe_artist'] == True %}
+		    						<p><b>Shoe Design/Cleans Shoes: </b>Shoe Artist</p>
+		    					{% else %}
+		    						<p><b>Shoe Design/Cleans Shoes: </b>None</p>
+		    					{% endif %}
+		    					<p><b>Examples of Service: </b>{{ user['account']['provider']['examples_of_services'] }}</p>
+		    					<p><b>Questions for customers: </b>{{ user['account']['provider']['questions_for_customers'] }}</p>
+		    					<h4>Pictures of their previous work: </h4>
+		    					<div class="row">
+									<div class="card col-4">
+										<h5>Example 1:</h5>
+										<p>{{ user['account']['provider']['describe_services_1'] }}</p>
+										{% for pic in user['account']['provider']['previous_work_1'] %}
+											<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small img-fluid"></a>
+										{% endfor %}
+									</div>
+									<div class="card col-4">
+										<h5>Example 2:</h5>
+										<p>{{ user['account']['provider']['describe_services_2'] }}</p>
+										{% for pic in user['account']['provider']['previous_work_2'] %}
+											<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small img-fluid"></a>
+										{% endfor %}
+									</div>
+									<div class="card col-4">
+										<h5>Example 3:</h5>
+										<p>{{ user['account']['provider']['describe_services_3'] }}</p>
+										{% for pic in user['account']['provider']['previous_work_3'] %}
+											<a href="#" onclick=""><img src="{{ pic }}" class="post-pic-small img-fluid"></a>
+										{% endfor %}
+									</div>
+								</div>
+		    					<button class="btn btn-success" onclick="userClicked('{{ username }}')">Accept</button>
+							</div>
+    					{% endfor %}
+		    		</div>
+			    	<h2>Accepted Users(Ready to Opperate) <b>{{ accepted_list|length }}</b></h2>
+			    	<table class="table">
+						<thead class="bg-primary text-white">
+							<th>Email</th>
+							<th>Username</th>
+							<th>Description</th>
+							<th>About Individual/Brand</th>
+							<th>Background Info</th>
+							<th>Shoe Design/Cleans Shoes</th>
+			    		</thead>
+			    		<tbody>
+			    			{% for user in accepted_list %}
+			    				{% set username = user['account']['username'] %}
+			    				<tr class="bg-light" id="{{ username }}">
+			    					<td>{{ user['account']['email'] }}</td>
+			    					<td>{{ user['account']['username'] }}</td>
+			    					<td>{{ user['account']['description'] }}</td>
+			    					<td>{{ user['account']['provider']['about_brand_or_individual'] }}</td>
+			    					<td>{{ user['account']['provider']['background_info'] }}</td>
+			    					{% if user['account']['provider']['clean_shoes'] == True and user['account']['provider']['shoe_artist'] == True %}
+			    						<td>Both</td>
+			    					{% elif user['account']['provider']['clean_shoes'] == True %}
+			    						<td>Cleans Shoes</td>
+			    					{% elif user['account']['provider']['shoe_artist'] == True %}
+			    						<td>Shoe Artist</td>
+			    					{% else %}
+			    						<td>None</td>
+			    					{% endif %}
+			    				</tr>
+			    			{% endfor %}
+			    		</tbody>
+			    	</table>
+		    	</div>
+		    </div>
+		<script type="text/javascript" src="{{ url_for('admin.static', filename='js/admin.js') }}"></script>
+		</body>
+{% endblock %}

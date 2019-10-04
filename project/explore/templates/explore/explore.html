@@ -1,0 +1,108 @@
+{% extends "header.html" %}
+{% block content %}
+	<link href="{{ url_for('explore.static', filename = 'css/explore.css') }}" rel="stylesheet">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+			<div class="jumbotron" style="background-color: #fff;">
+				<h4>Service</h4>
+				<select id="selected-service">
+					{% if service_type == 'all' %}
+						<option value="all" selected>All</option>
+					{% else %}
+						<option value="all">All</option>
+					{% endif %}
+					{% if service_type == 'sneaker_art' %}
+						<option value="sneaker_art" selected>Sneaker Art</option>
+					{% else %}
+						<option value="sneaker_art">Sneaker Art</option>
+					{% endif %}
+					{% if service_type == 'clean_shoes' %}					
+						<option value="clean_shoes" selected>Shoe Restoration</option>
+					{% else %}
+						<option value="clean_shoes">Shoe Restoration</option>
+					{% endif %}
+				</select>
+				<br>
+				<h4>Max Cost</h4>
+				<p><input type="range" min="30" max="500" value="50" name="price-range-value" id="filter-price-change" oninput="updateTextPriceValueInput(this.value)"></p>
+				<p id="range-value-display" ></p>
+				<h4>Types of Services</h4>
+				<select id="selected-brand">
+					<option value="any">Any</option>
+					<option value="nike">Nike</option>
+					<option value="jordan">Jordan</option>
+					<option value="adidas">Adidas</option>
+					<option value="puma">Puma</option>
+					<option value="vans">Vans</option>
+					<option value="other">Other</option>
+				</select>
+				<br>
+				<button class="btn btn-outline-success mx-auto" style="width: 100%" id="filter-btn">Go</button>
+			</div>	
+		</div>
+		<div id="vertical-line"></div>
+		<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+			<!-- New Post Section -->
+			{% if service_type == 'all' or service_type == 'sneaker_art' %}
+				<h2>New Post</h2>
+				<div class="row" id="new-post-row">
+					{% for post in final_new_post %}
+						{% if post.shoe_artist == True or post.shoe_artist == 'true' %}
+							<div class="card new-post-shoe-artist-card">
+								<p><span class="new-post-shoe-name"><a href="post/{{ post.post_id }}">{{ post.shoe_name }}</a></span><span class="new-post-username"><a href="profile/{{ post.username }}">{{ post.username }}</a></span></p>
+								<a href="post/{{ post.post_id }}"><img src="{{ post.post_pic_urls[0] }}" class="post_pic"></a>
+								<h6>${{ post.cost }}</h6>
+								<p>{{ post.shoe_description }}</p>
+								<small>{{ post.selectedTime }}</small>
+								{% if not session['account'] %}
+									<button class="btn btn-outline-primary">Get Now</button>
+								{% endif %}
+							</div>
+						{% endif %}
+						{% if post.clean_shoes == 'true' or post.clean_shoes == True%}
+							<div class="card new-post-clean-shoes-card">
+								<p>Shoe Cleaning</p>
+								<h6>${{ post.cost }}</h6>
+								<p>{{ post.selectedTime }}</p>
+								<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
+								{% if session['account'] %}
+									{% if session['account']['provider']['is_provider'] == False %}
+										<button class="btn btn-outline-primary">Get Now</button>
+									{% endif %}
+								{% else %}
+									<button class="btn btn-outline-primary">Get Now</button>
+								{% endif %}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endif %}
+
+			{% if service_type == 'all' or service_type == 'clean_shoes' %}
+				<hr>
+				<!-- Shoe Cleaner Section -->
+				<h2>Clean your Shoes Now</h2>
+				<div class="row" id="shoe-clean-row">
+					{% for post in clean_shoes_posts %}
+						<div class="card shoe-clean-card">
+							<p><a href="post/{{ post.post_id }}">Shoe Cleaning</a></p>
+							<h6>${{ post.cost }}</h6>
+							<p>{{ post.selectedTime }}</p>
+							<b><a href="/profile/{{ post.username }}">{{ post.username }}</a></b>
+							{% if not session['account'] %}
+								<button class="btn btn-outline-primary">Get Now</button>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+			{% if session['account'] %}
+				{% if session['account']['provider']['is_provider'] == True %}
+					<a class="btn btn-primary" id="new-post-button" href="{{ url_for('explore.newPost') }}">New Post</a>
+				{% endif %}
+			{% endif %}
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{{ url_for('explore.static', filename='js/explore.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% block content %}
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>FixMyKix - About FixMyKix</title>
+
+			<!-- Jquery -->
+		    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+		    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="crossorigin="anonymous"></script>
+
+		    <!-- Bootstrap CSS and JS -->
+		    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		    <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+		</head>
+		<body>
+			<style type="text/css">
+		        /*Body Styling*/
+		        * {
+		            -webkit-overflow-scrolling: touch;
+		        }
+		        html,body
+		        {
+		            width: 100%;
+		            height: 100%;
+		            margin: 0px;
+		            padding: 0px;
+		            overflow-x: hidden; 
+		        }
+		    	.nav-link-header {
+		    		color: #000;
+		    	}
+		    	#logo-header {
+		    		width: 100px;
+		    		height: 40px;
+		    	}
+		    </style>
+		  	{# Messages #}
+		    {% with messages = get_flashed_messages(with_categories=true) %}
+		        {% if messages %}
+		            {% for category, message in messages %}
+		                <div class="alert {{ category }} bg-light"> {{ message|capitalize }} </div>
+		            {% endfor %}
+		        {% endif %}
+		    {% endwith %}
+			<!-- Responsive Navigation Bar -->
+		    <nav class="navbar navbar-expand-md navbar-default sticky-top text-center" style="background:rgba(238,238,238,0.5);">
+		        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#collapse_target" aria-expanded="false" aria-label="Toggle navigation">
+		            <span class="navbar-toggler-icon"><img src="https://img.icons8.com/material/24/000000/menu.png"></span>
+		        </button>
+		        <a href="#" class="navbar-brand nav-link-header"><img id="logo-header" src="{{ url_for('about.static', filename = 'img/logo.jpg') }}"></a>
+		        <div class="collapse navbar-collapse" id="collapse_target">
+		            <ul class="navbar-nav ml-auto">
+		                <li class="nav-item">
+		                	<a id="about-button" class="nav-link nav-link-header" href="{{ url_for('about.home') }}">About</a>
+		                </li>
+		                <li class="nav-item">
+		                	<a id="about-button" class="nav-link nav-link-header" href="{{ url_for('admin.early') }}">Sign Up</a>
+		                </li>
+		            </ul>
+		        </div>
+		    </nav>
+
+			<link href="{{ url_for('about.static', filename = 'css/homepage.css') }}" rel="stylesheet">
+			<div class="container-fluid">
+				<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+					<h2>WHAT IS FIXMYKIX?</h2>
+					<center>
+						<img src="{{ url_for('about.static', filename = 'img/logo2.jpg') }}" rel="stylesheet">
+					</center>
+					<br>
+					<p>
+						Fixmykix raises awareness of and provides a mobile marketplace app for the services of Shoe Restoration and Shoe Art, to promote artistic entrepreneurship and environmental sustainability. Fixmykix understands that the services of shoe restoration are very valuable in the shoe industry and our service providers need a space for them to sell their services. Fixmykix also recognizes how harmful fast fashion is to the environment, were attempting to reduce the amount of shoes that end up in landfills by promoting shoe restoration and offering a space to practice offering these services.
+					</p>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+					<h2>WHAT IS SHOE RESTORATION?</h2>
+					<br>
+					<img class="img-fluid" src="{{ url_for('about.static', filename = 'img/shoecleaningphoto1.jpg') }}" rel="stylesheet">
+					<p>
+						Shoe Restoration is the process of taking a pair shoes that have been worn down, beat up, and would traditionally be thrown out, and taking that pair of shoes through a process of rehabilitation were the final outcome will be restoring that shoe’s integrity back into a fresh wearable shoe that is ready to be rocked once again.
+					</p>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+					<h2>WHAT IS SHOE ART?</h2>
+					<br>
+					<img class="img-fluid" src="{{ url_for('about.static', filename = 'img/shoecleaningphoto2.jpg') }}" rel="stylesheet">
+					<p>
+						Shoe Art is the process of taking a pair of shoes that already exists and redesigning it with your own personal creative touch and making it your own one of a kind masterpiece you can wear on your feet.
+					</p>
+				</div>
+			</div>
+		</body>	
+	</html>
+{% endblock %}
