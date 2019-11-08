@@ -25,7 +25,7 @@ profile = Blueprint('profile', __name__, static_folder='static' , template_folde
 def home(username):
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 
 	try:
 		# Getting database

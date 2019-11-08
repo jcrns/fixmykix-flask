@@ -22,8 +22,8 @@ explore = Blueprint('explore', __name__, template_folder='templates', static_fol
 @explore.route("/", methods=['GET', 'POST'])
 def homepage():
 	Launched = os.environ.get('LAUNCHED', None)
-	if Launched == 'False':
-		return redirect(url_for('about.home'))
+	if Launched != 'True':
+		return render_template('explore/early.html')
 	try:
 		# Trying to get data
 		getPosts = database.child("posts").get().val()
@@ -102,7 +102,7 @@ def homepage():
 def users():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 	try:
 		# Trying to get data
 		getUsers = dict(database.child("users").get().val())
@@ -130,7 +130,7 @@ def users():
 def newPost():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 	try:
 		sessionConfirm = session['account']['username']
 		if session['account']['provider']['is_provider'] == True:
@@ -146,7 +146,7 @@ def newPost():
 def home():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 	try:
 		# Trying to get data
 		getPosts = database.child("posts").get().val()

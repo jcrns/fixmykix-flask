@@ -20,7 +20,7 @@ users = Blueprint('users', __name__, template_folder='templates')
 def signupProvider():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 
 	# Defining the form
 	form = SignUpForProvider()
@@ -41,7 +41,7 @@ def signupProvider():
 def signupConsumer():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 
 	# Defining the form
 	form = SignUpForConsumer()
@@ -65,7 +65,7 @@ def signupConsumer():
 def login():
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 
 	# Defining the form
 	form = LoginForm()

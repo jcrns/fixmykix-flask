@@ -13,4 +13,5 @@ def home():
 	print(Launched)
 	if Launched == 'True':
 		return render_template('about/about.html', launched=Launched)
-	return render_template('about/about-early.html',  launched=False)
+	else:
+		return redirect(url_for('explore.homepage'))

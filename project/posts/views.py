@@ -25,7 +25,7 @@ from project.__init__ import Launched
 def home(postId):
 	Launched = os.environ.get('LAUNCHED', None)
 	if Launched == 'False':
-		return redirect(url_for('admin.early'))
+		return redirect(url_for('explore.homepage'))
 	try:
 		postsData = database.child("posts").get().val()
 		users = database.child("users").get().val()
